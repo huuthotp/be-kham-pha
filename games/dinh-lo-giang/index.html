@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1FA7A0" />
+  <meta name="description" content="Mini game giáo dục: Thử tài của bé – Đúng hay Sai? Khám phá Đình làng Lỗ Giáng." />
+  <title>Thử Tài Của Bé – Đúng Hay Sai? | Đình Lỗ Giáng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sky" aria-hidden="true">
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="lantern l1"></div>
+    <div class="lantern l2"></div>
+  </div>
+
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+  <!-- START SCREEN -->
+  <section id="screen-start" class="screen screen-start is-active" aria-label="Màn hình bắt đầu">
+    <div class="start-stage">
+      <a class="back-hub" href="../../">← Bé Khám Phá</a>
+      <p class="brand">Đình làng Lỗ Giáng</p>
+      <h1 class="title">
+        <span class="title-line">Thử Tài Của Bé</span>
+        <span class="title-sub">Đúng hay Sai?</span>
+      </h1>
+      <p class="tagline">Cùng Bé Sen khám phá ngôi đình cổ kính qua những câu hỏi vui!</p>
+
+      <div class="host-wrap" aria-hidden="true">
+        <svg class="host host-idle" viewBox="0 0 128 148" role="img" aria-label="Bé Sen">
+          <ellipse cx="64" cy="138" rx="34" ry="8" fill="rgba(0,0,0,.12)" />
+          <ellipse cx="64" cy="108" rx="36" ry="28" fill="#FF8FAB" />
+          <ellipse cx="64" cy="108" rx="24" ry="18" fill="#FFC2D1" />
+          <ellipse cx="28" cy="100" rx="14" ry="9" fill="#5ECF7B" transform="rotate(-25 28 100)" />
+          <ellipse cx="100" cy="100" rx="14" ry="9" fill="#5ECF7B" transform="rotate(25 100 100)" />
+          <circle cx="64" cy="58" r="38" fill="#FFE0B8" />
+          <path d="M40 28 Q50 4 64 22 Q78 4 88 28 Q76 18 64 30 Q52 18 40 28Z" fill="#FF6B81" />
+          <path d="M48 26 Q58 10 64 24 Q70 10 80 26 Q70 20 64 28 Q58 20 48 26Z" fill="#FFD1DC" />
+          <circle cx="64" cy="18" r="5" fill="#FFD54A" />
+          <ellipse cx="50" cy="58" rx="5.5" ry="7" fill="#1F3A2E" />
+          <ellipse cx="78" cy="58" rx="5.5" ry="7" fill="#1F3A2E" />
+          <circle cx="48" cy="55" r="2" fill="#fff" />
+          <circle cx="76" cy="55" r="2" fill="#fff" />
+          <circle cx="42" cy="70" r="6" fill="#FFB4A8" opacity=".85" />
+          <circle cx="86" cy="70" r="6" fill="#FFB4A8" opacity=".85" />
+          <path class="mouth smile" d="M50 74 Q64 88 78 74" fill="none" stroke="#C94334" stroke-width="3.5" stroke-linecap="round" />
+          <path class="mouth sad" d="M52 82 Q64 72 76 82" fill="none" stroke="#C94334" stroke-width="3.5" stroke-linecap="round" hidden />
+        </svg>
+        <p class="host-bubble">Chào bé! Mình là Bé Sen, cùng chơi nhé!</p>
+      </div>
+
+      <button type="button" id="btn-start" class="btn btn-primary btn-xl">
+        Bắt đầu chơi
+      </button>
+      <label class="voice-toggle">
+        <input type="checkbox" id="toggle-voice" checked />
+        <span>Nghe Bé Sen đọc câu hỏi</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- PLAY SCREEN -->
+  <section id="screen-play" class="screen screen-play" aria-label="Màn hình chơi" hidden>
+    <header class="play-bar">
+      <div class="progress-wrap">
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <p id="progress-text" class="progress-text">Câu 1 / 5</p>
+      </div>
+      <button type="button" id="btn-speak" class="btn btn-icon" aria-label="Đọc lại câu hỏi" title="Đọc lại">
+        🔊
+      </button>
+    </header>
+
+    <div class="play-main">
+      <div class="host-mini" aria-hidden="true">
+        <svg id="host-play" class="host host-idle" viewBox="0 0 128 148">
+          <ellipse cx="64" cy="138" rx="28" ry="7" fill="rgba(0,0,0,.12)" />
+          <ellipse cx="64" cy="108" rx="30" ry="22" fill="#FF8FAB" />
+          <ellipse cx="64" cy="108" rx="20" ry="14" fill="#FFC2D1" />
+          <circle cx="64" cy="58" r="32" fill="#FFE0B8" />
+          <path d="M44 32 Q64 8 84 32 Q72 24 64 34 Q56 24 44 32Z" fill="#FF6B81" />
+          <ellipse cx="52" cy="56" rx="4.5" ry="6" fill="#1F3A2E" />
+          <ellipse cx="76" cy="56" rx="4.5" ry="6" fill="#1F3A2E" />
+          <circle cx="42" cy="68" r="5" fill="#FFB4A8" opacity=".85" />
+          <circle cx="86" cy="68" r="5" fill="#FFB4A8" opacity=".85" />
+          <path class="mouth smile" d="M52 72 Q64 82 76 72" fill="none" stroke="#C94334" stroke-width="3" stroke-linecap="round" />
+          <path class="mouth sad" d="M52 80 Q64 70 76 80" fill="none" stroke="#C94334" stroke-width="3" stroke-linecap="round" hidden />
+        </svg>
+      </div>
+
+      <article class="statement-board" aria-live="polite">
+        <p class="statement-kicker" id="question-kicker">Câu hỏi 1</p>
+        <p id="statement-text" class="statement-text"></p>
+      </article>
+
+      <div class="choice-row" id="choice-row">
+        <button type="button" class="choice-card choice-true" data-answer="true" aria-label="Chọn Đúng">
+          <span class="choice-emoji" aria-hidden="true">😊</span>
+          <span class="choice-label">ĐÚNG</span>
+        </button>
+        <button type="button" class="choice-card choice-false" data-answer="false" aria-label="Chọn Sai">
+          <span class="choice-emoji" aria-hidden="true">😢</span>
+          <span class="choice-label">SAI</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK OVERLAY -->
+  <div id="feedback" class="feedback" hidden role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+    <div class="feedback-card">
+      <div id="feedback-emoji" class="feedback-emoji" aria-hidden="true">🎉</div>
+      <h2 id="feedback-title" class="feedback-title">Giỏi quá!</h2>
+      <p id="feedback-explain" class="feedback-explain"></p>
+      <button type="button" id="btn-next" class="btn btn-primary btn-lg">Câu tiếp theo</button>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <section id="screen-result" class="screen screen-result" aria-label="Màn hình tổng kết" hidden>
+    <div class="result-stage">
+      <p class="brand">Đình làng Lỗ Giáng</p>
+      <h2 class="result-title">Bé thật tuyệt vời!</h2>
+      <div class="result-trophy" aria-hidden="true">🏆</div>
+      <div class="result-stats">
+        <div class="stat">
+          <span class="stat-value" id="result-correct">0</span>
+          <span class="stat-label">Câu đúng</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="result-total">5</span>
+          <span class="stat-label">Tổng câu</span>
+        </div>
+      </div>
+      <p id="result-message" class="result-message"></p>
+      <ul id="review-list" class="review-list" aria-label="Xem lại câu trả lời"></ul>
+      <div class="result-actions">
+        <button type="button" id="btn-replay" class="btn btn-primary btn-xl">Chơi lại</button>
+        <button type="button" id="btn-home" class="btn btn-secondary btn-lg">Về trang đầu</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="audio-manifest.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
