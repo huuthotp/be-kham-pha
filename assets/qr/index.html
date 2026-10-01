@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mã QR – Bé Khám Phá</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: #f4fbf7;
+        color: #1f3a2e;
+        padding: 24px;
+      }
+      h1 {
+        text-align: center;
+        margin: 0 0 8px;
+      }
+      .sub {
+        text-align: center;
+        color: #3d5c4a;
+        margin-bottom: 28px;
+      }
+      .grid {
+        display: grid;
+        gap: 24px;
+        max-width: 820px;
+        margin: 0 auto;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      .card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(31, 58, 46, 0.08);
+      }
+      img {
+        width: min(280px, 100%);
+        height: auto;
+        image-rendering: pixelated;
+      }
+      a {
+        color: #0e7c77;
+        word-break: break-all;
+      }
+      @media print {
+        body {
+          background: #fff;
+        }
+        .card {
+          box-shadow: none;
+          border: 1px solid #ddd;
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bé Khám Phá</h1>
+    <p class="sub">Quét mã để mở game trên điện thoại · In trang này dán lớp cũng được</p>
+    <div class="grid">
+      <div class="card">
+        <h2>Trang chủ</h2>
+        <img src="bekhampha-hub.png" alt="QR trang chủ Bé Khám Phá" />
+        <p><a href="https://bekhampha.netlify.app/">https://bekhampha.netlify.app/</a></p>
+      </div>
+      <div class="card">
+        <h2>Game Đình Lỗ Giáng</h2>
+        <img src="bekhampha-dinh-lo-giang.png" alt="QR game Đình làng Lỗ Giáng" />
+        <p>
+          <a href="https://bekhampha.netlify.app/games/dinh-lo-giang/"
+            >https://bekhampha.netlify.app/games/dinh-lo-giang/</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
