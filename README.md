@@ -36,6 +36,8 @@ Mở `index.html` bằng trình duyệt, hoặc:
 npx --yes serve .
 ```
 
-## Online
+## Online (gửi phụ huynh)
 
-Sẽ publish GitHub Pages (cập nhật trong README sau khi deploy).
+**https://huuthotp.github.io/be-kham-pha/**
+
+Mini game Đình Lỗ Giáng: https://huuthotp.github.io/be-kham-pha/games/dinh-lo-giang/
