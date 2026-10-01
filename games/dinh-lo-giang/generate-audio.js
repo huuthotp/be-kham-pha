@@ -1,48 +1,35 @@
 #!/usr/bin/env node
 /**
- * Tạo sẵn file âm thanh tiếng Việt (nữ) để deploy static (GitHub Pages).
+ * Tạo sẵn file âm thanh tiếng Việt cho mini game Đình Lỗ Giáng.
  */
 const https = require("https");
 const fs = require("fs");
 const path = require("path");
 
 const OUT_DIR = path.join(__dirname, "audio");
-const NUM_WORDS = ["một", "hai", "ba", "bốn", "năm"];
 
 const QUESTIONS = [
   {
-    question: "Đình làng Lỗ Giáng nằm ở phường Hoà Xuân.",
-    explain: "Đúng rồi! Đình làng Lỗ Giáng nằm ở phường Hoà Xuân đó."
+    question: "Các bé ơi, đình làng Lỗ Giáng nằm ở phường Hòa Xuân đấy! Đúng hay sai?",
+    explain: "Đúng rồi! Đình làng Lỗ Giáng nằm ở phường Hòa Xuân đó."
   },
   {
-    question: "Đình làng chỉ dùng để vui chơi.",
-    explain: "Không phải vậy đâu. Đình còn là nơi thờ cúng và giữ gìn văn hóa làng nữa."
+    question: "Bạn nhỏ nói: “Đình làng chỉ là nơi để vui chơi thôi!” Bạn ấy nói đúng hay sai nhỉ?",
+    explain: "Sai rồi nhé! Đình không chỉ để vui chơi, còn là nơi thờ cúng và giữ gìn văn hóa làng."
   },
   {
-    question: "Chúng ta được vẽ lên tường đình.",
-    explain: "Không được đâu bé! Phải yêu quý và bảo vệ tường đình nhé."
+    question: "Nếu đến đình làng, chúng mình có thể lấy bút vẽ lên tường đình. Đúng hay sai?",
+    explain: "Sai rồi! Không được vẽ lên tường đình đâu, phải yêu quý và bảo vệ đình nhé."
   },
   {
-    question: "Đình làng là nơi lưu giữ những giá trị văn hóa truyền thống.",
-    explain: "Đúng rồi! Đình lưu giữ nhiều giá trị văn hóa truyền thống của làng."
+    question: "Đình làng là nơi lưu giữ những nét đẹp văn hóa truyền thống của quê hương. Đúng hay sai?",
+    explain: "Đúng rồi! Đình làng lưu giữ những nét đẹp văn hóa truyền thống của quê hương."
   },
   {
-    question: "Khi tham quan đình, chúng ta cần giữ gìn vệ sinh.",
-    explain: "Đúng rồi! Khi tham quan đình, chúng ta cần giữ vệ sinh sạch sẽ."
+    question: "Khi đến thăm đình, chúng mình cùng giữ cho đình luôn sạch đẹp nhé! Đúng hay sai?",
+    explain: "Đúng rồi! Chúng mình cùng giữ cho đình luôn sạch đẹp nhé!"
   }
 ];
-
-function questionSpeech(index, question) {
-  const n = NUM_WORDS[index] || String(index + 1);
-  const openers = [
-    `Nào! Câu hỏi số ${n} đây!`,
-    `Tí ta tí tiếp! Câu hỏi số ${n} nào!`,
-    `Bé ơi, cùng đến câu hỏi số ${n} nhé!`,
-    `Ui, câu hỏi số ${n} thú vị lắm!`,
-    `Câu hỏi cuối số ${n} rồi đây!`
-  ];
-  return `${openers[Math.min(index, openers.length - 1)]} ${question} Bé chọn Đúng, hay Sai nào?`;
-}
 
 function feedbackSpeech(isCorrect, explain) {
   if (isCorrect) return `Wow! Giỏi quá bé ơi! ${explain} Tuyệt vời!`;
@@ -93,7 +80,7 @@ function fetchChunk(text) {
         r.on("end", () => {
           const buf = Buffer.concat(chunks);
           if (r.statusCode !== 200 || buf.length < 200) {
-            reject(new Error(`TTS ${r.statusCode} bytes=${buf.length} text=${text.slice(0, 40)}`));
+            reject(new Error(`TTS ${r.statusCode} bytes=${buf.length}`));
             return;
           }
           resolve(buf);
@@ -125,8 +112,8 @@ async function main() {
   const jobs = [];
 
   QUESTIONS.forEach((q, i) => {
-    jobs.push({ key: `q${i}`, text: questionSpeech(i, q.question) });
-    jobs.push({ key: `q${i}_replay`, text: `Bé nghe kỹ này nhé! ${q.question} Chọn Đúng, hay Sai nào?` });
+    jobs.push({ key: `q${i}`, text: q.question });
+    jobs.push({ key: `q${i}_replay`, text: q.question });
     jobs.push({ key: `fb${i}_ok`, text: feedbackSpeech(true, q.explain) });
     jobs.push({ key: `fb${i}_bad`, text: feedbackSpeech(false, q.explain) });
   });
@@ -144,8 +131,11 @@ async function main() {
     console.log(`ok (${buf.length} bytes)`);
   }
 
-  fs.writeFileSync(path.join(__dirname, "audio-manifest.js"), `window.AUDIO_MANIFEST = ${JSON.stringify(manifest, null, 2)};\n`);
-  console.log(`Done. ${jobs.length} files → ${OUT_DIR}`);
+  fs.writeFileSync(
+    path.join(__dirname, "audio-manifest.js"),
+    `window.AUDIO_MANIFEST = ${JSON.stringify(manifest, null, 2)};\n`
+  );
+  console.log(`Done. ${jobs.length} files`);
 }
 
 main().catch((err) => {

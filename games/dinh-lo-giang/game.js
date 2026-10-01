@@ -3,29 +3,29 @@
 
   const QUESTIONS = [
     {
-      question: "Đình làng Lỗ Giáng có nằm ở phường Hoà Xuân không?",
+      question: "Các bé ơi, đình làng Lỗ Giáng nằm ở phường Hòa Xuân đấy! Đúng hay sai?",
       answer: true,
-      explain: "Có chứ! Đình làng Lỗ Giáng nằm ở phường Hoà Xuân đó."
+      explain: "Đúng rồi! Đình làng Lỗ Giáng nằm ở phường Hòa Xuân đó."
     },
     {
-      question: "Đình làng có chỉ dùng để vui chơi thôi không?",
+      question: "Bạn nhỏ nói: “Đình làng chỉ là nơi để vui chơi thôi!” Bạn ấy nói đúng hay sai nhỉ?",
       answer: false,
-      explain: "Không phải vậy đâu. Đình còn là nơi thờ cúng và giữ gìn văn hóa làng nữa."
+      explain: "Sai rồi nhé! Đình không chỉ để vui chơi, còn là nơi thờ cúng và giữ gìn văn hóa làng."
     },
     {
-      question: "Chúng ta có được vẽ lên tường đình không?",
+      question: "Nếu đến đình làng, chúng mình có thể lấy bút vẽ lên tường đình. Đúng hay sai?",
       answer: false,
-      explain: "Không được đâu bé! Phải yêu quý và bảo vệ tường đình nhé."
+      explain: "Sai rồi! Không được vẽ lên tường đình đâu, phải yêu quý và bảo vệ đình nhé."
     },
     {
-      question: "Đình làng có phải là nơi lưu giữ những giá trị văn hóa truyền thống không?",
+      question: "Đình làng là nơi lưu giữ những nét đẹp văn hóa truyền thống của quê hương. Đúng hay sai?",
       answer: true,
-      explain: "Đúng rồi! Đình lưu giữ nhiều giá trị văn hóa truyền thống của làng."
+      explain: "Đúng rồi! Đình làng lưu giữ những nét đẹp văn hóa truyền thống của quê hương."
     },
     {
-      question: "Khi tham quan đình, chúng ta có cần giữ gìn vệ sinh không?",
+      question: "Khi đến thăm đình, chúng mình cùng giữ cho đình luôn sạch đẹp nhé! Đúng hay sai?",
       answer: true,
-      explain: "Có chứ! Tham quan đình phải giữ vệ sinh, sạch sẽ và trật tự."
+      explain: "Đúng rồi! Chúng mình cùng giữ cho đình luôn sạch đẹp nhé!"
     }
   ];
 
@@ -406,16 +406,8 @@
   }
 
   function questionSpeech(index, question) {
-    const n = NUM_WORDS[index] || String(index + 1);
-    const openers = [
-      `Nào! Câu hỏi số ${n} đây!`,
-      `Tí ta tí tiếp! Câu hỏi số ${n} nào!`,
-      `Bé ơi, cùng đến câu hỏi số ${n} nhé!`,
-      `Ui, câu hỏi số ${n} thú vị lắm!`,
-      `Câu hỏi cuối số ${n} rồi đây!`
-    ];
-    const opener = openers[Math.min(index, openers.length - 1)];
-    return `${opener} ${question} Bé chọn Đúng, hay Sai nào?`;
+    // Câu hỏi đã viết sẵn giọng thiếu nhi, đọc nguyên văn
+    return question;
   }
 
   function feedbackSpeech(isCorrect, explain) {
@@ -620,9 +612,7 @@
     state.voiceOn = true;
     el.toggleVoice.checked = true;
     unlockAudio().then(() => {
-      speak(`Bé nghe kỹ này nhé! ${q.question} Chọn Đúng, hay Sai nào?`, {
-        audioKey: `q${state.index}_replay`
-      });
+      speak(q.question, { audioKey: `q${state.index}_replay` });
     });
   });
 
