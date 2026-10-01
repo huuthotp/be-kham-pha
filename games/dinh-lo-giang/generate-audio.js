@@ -105,9 +105,60 @@ async function fetchTts(text) {
   return Buffer.concat(buffers);
 }
 
+function runFfmpeg(args) {
+  const { spawnSync } = require("child_process");
+  const r = spawnSync("ffmpeg", args, { encoding: "utf8" });
+  if (r.status !== 0) {
+    throw new Error(r.stderr || r.stdout || "ffmpeg failed");
+  }
+}
+
+function ensureSilencePad() {
+  const silencePath = path.join(OUT_DIR, "_silence.mp3");
+  // 0.35s silence — tránh trình duyệt/TTS nuốt âm đầu câu
+  runFfmpeg([
+    "-y",
+    "-f",
+    "lavfi",
+    "-i",
+    "anullsrc=r=24000:cl=mono",
+    "-t",
+    "0.35",
+    "-q:a",
+    "9",
+    silencePath
+  ]);
+  return silencePath;
+}
+
+function padWithSilence(speechBuf, silencePath, outPath) {
+  const tmpSpeech = path.join(OUT_DIR, "_speech_tmp.mp3");
+  fs.writeFileSync(tmpSpeech, speechBuf);
+  runFfmpeg([
+    "-y",
+    "-i",
+    silencePath,
+    "-i",
+    tmpSpeech,
+    "-filter_complex",
+    "[0:a][1:a]concat=n=2:v=0:a=1,afade=t=in:st=0:d=0.08[a]",
+    "-map",
+    "[a]",
+    "-ar",
+    "24000",
+    "-ac",
+    "1",
+    "-q:a",
+    "4",
+    outPath
+  ]);
+  fs.unlinkSync(tmpSpeech);
+}
+
 async function main() {
   if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 
+  const silencePath = ensureSilencePad();
   const manifest = {};
   const jobs = [];
 
@@ -126,9 +177,16 @@ async function main() {
     process.stdout.write(`Generating ${job.key}... `);
     const buf = await fetchTts(job.text);
     const file = `${job.key}.mp3`;
-    fs.writeFileSync(path.join(OUT_DIR, file), buf);
+    const outPath = path.join(OUT_DIR, file);
+    padWithSilence(buf, silencePath, outPath);
     manifest[job.key] = `audio/${file}`;
-    console.log(`ok (${buf.length} bytes)`);
+    console.log(`ok (${fs.statSync(outPath).size} bytes)`);
+  }
+
+  try {
+    fs.unlinkSync(silencePath);
+  } catch (_) {
+    /* ignore */
   }
 
   fs.writeFileSync(

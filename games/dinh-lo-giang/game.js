@@ -296,7 +296,7 @@
       .flatMap((part) => (part.length <= 120 ? [part] : chunkText(part, 120)));
   }
 
-  /** TTS tiếng Việt qua proxy, phát nhanh hơn một chút để nghe tươi vui. */
+  /** TTS tiếng Việt qua proxy. */
   function speakWithProxyTts(text, token) {
     const parts = livelyChunks(text);
     let i = 0;
@@ -315,40 +315,46 @@
       const url = `/api/tts?text=${encodeURIComponent(parts[i])}&_=${Date.now()}-${i}`;
       const audio = new Audio(url);
       audio.preload = "auto";
-      // Nhanh + không giữ pitch → giọng sáng, vui hơn kiểu MC thiếu nhi
-      audio.playbackRate = 1.14;
-      if ("preservesPitch" in audio) audio.preservesPitch = false;
+      // Giữ tốc độ gần tự nhiên để không nuốt âm đầu
+      audio.playbackRate = 1.02;
+      if ("preservesPitch" in audio) audio.preservesPitch = true;
       state.ttsAudio = audio;
 
       audio.onended = () => {
         i += 1;
-        // Nghỉ cực ngắn giữa các đoạn để có nhịp nhấn nhá
-        window.setTimeout(playNext, 90);
+        window.setTimeout(playNext, 120);
       };
       audio.onerror = () => {
         console.warn("[TTS] Không phát được đoạn", i, parts[i]);
         i += 1;
         playNext();
       };
-      audio.play().catch(() => {
-        i += 1;
-        playNext();
-      });
+      const start = () => {
+        window.setTimeout(() => {
+          if (token !== state.speakToken) return;
+          audio.play().catch(() => {
+            i += 1;
+            playNext();
+          });
+        }, 40);
+      };
+      if (audio.readyState >= 2) start();
+      else audio.addEventListener("canplay", start, { once: true });
     };
 
     playNext();
   }
 
-  /** Phát file mp3 có sẵn (deploy static) — ổn định trên GitHub Pages. */
+  /** Phát file mp3 có sẵn (đã pad silence đầu câu). */
   function speakWithPrebaked(audioKey, token) {
     const src = window.AUDIO_MANIFEST && window.AUDIO_MANIFEST[audioKey];
     if (!src) return false;
 
     setHostMood("talk");
-    const audio = new Audio(src);
+    const audio = new Audio(`${src}?v=pad1`);
     audio.preload = "auto";
-    audio.playbackRate = 1.12;
-    if ("preservesPitch" in audio) audio.preservesPitch = false;
+    audio.playbackRate = 1.02;
+    if ("preservesPitch" in audio) audio.preservesPitch = true;
     state.ttsAudio = audio;
 
     audio.onended = () => {
@@ -357,9 +363,20 @@
     audio.onerror = () => {
       if (token === state.speakToken) setHostMood("idle");
     };
-    audio.play().catch(() => {
-      if (token === state.speakToken) setHostMood("idle");
-    });
+
+    const start = () => {
+      // Chờ cực ngắn để audio pipeline sẵn sàng, tránh cắt chữ đầu
+      window.setTimeout(() => {
+        if (token !== state.speakToken) return;
+        audio.play().catch(() => {
+          if (token === state.speakToken) setHostMood("idle");
+        });
+      }, 60);
+    };
+
+    if (audio.readyState >= 2) start();
+    else audio.addEventListener("canplay", start, { once: true });
+
     return true;
   }
 
