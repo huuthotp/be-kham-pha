@@ -3,29 +3,29 @@
 
   const QUESTIONS = [
     {
-      question: "Đình làng Lỗ Giáng nằm ở phường Hoà Xuân.",
+      question: "Đình làng Lỗ Giáng có nằm ở phường Hoà Xuân không?",
       answer: true,
-      explain: "Đúng rồi! Đình làng Lỗ Giáng nằm ở phường Hoà Xuân đó."
+      explain: "Có chứ! Đình làng Lỗ Giáng nằm ở phường Hoà Xuân đó."
     },
     {
-      question: "Đình làng chỉ dùng để vui chơi.",
+      question: "Đình làng có chỉ dùng để vui chơi thôi không?",
       answer: false,
       explain: "Không phải vậy đâu. Đình còn là nơi thờ cúng và giữ gìn văn hóa làng nữa."
     },
     {
-      question: "Chúng ta được vẽ lên tường đình.",
+      question: "Chúng ta có được vẽ lên tường đình không?",
       answer: false,
       explain: "Không được đâu bé! Phải yêu quý và bảo vệ tường đình nhé."
     },
     {
-      question: "Đình làng là nơi lưu giữ những giá trị văn hóa truyền thống.",
+      question: "Đình làng có phải là nơi lưu giữ những giá trị văn hóa truyền thống không?",
       answer: true,
       explain: "Đúng rồi! Đình lưu giữ nhiều giá trị văn hóa truyền thống của làng."
     },
     {
-      question: "Khi tham quan đình, chúng ta cần giữ gìn vệ sinh.",
+      question: "Khi tham quan đình, chúng ta có cần giữ gìn vệ sinh không?",
       answer: true,
-      explain: "Đúng rồi! Khi tham quan đình, chúng ta cần giữ vệ sinh sạch sẽ."
+      explain: "Có chứ! Tham quan đình phải giữ vệ sinh, sạch sẽ và trật tự."
     }
   ];
 

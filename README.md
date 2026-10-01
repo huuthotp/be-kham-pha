@@ -38,6 +38,8 @@ npx --yes serve .
 
 ## Online (gửi phụ huynh)
 
-**https://huuthotp.github.io/be-kham-pha/**
+**https://bekhampha.netlify.app**
 
-Mini game Đình Lỗ Giáng: https://huuthotp.github.io/be-kham-pha/games/dinh-lo-giang/
+Mini game Đình Lỗ Giáng: https://bekhampha.netlify.app/games/dinh-lo-giang/
+
+> Miễn phí, hosting Netlify. Bản GitHub Pages cũ vẫn còn nhưng nên dùng link Netlify cho dễ gửi phụ huynh.
