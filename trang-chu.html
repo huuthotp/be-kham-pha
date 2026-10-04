@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mục lục | Bé Khám Phá</title>
+    <style>
+      body {
+        margin: 0;
+        background: #e8e8e8;
+        color: #000;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      .sheet {
+        max-width: 720px;
+        margin: 32px auto;
+        padding: 64px 72px 80px;
+        background: #fff;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+      }
+      h1 {
+        margin: 0 0 28px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+      }
+      ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: muc;
+      }
+      li {
+        counter-increment: muc;
+        margin: 0 0 14px;
+      }
+      a {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        color: #0563c1;
+        text-decoration: underline;
+      }
+      a::before {
+        content: counter(muc) ".";
+        color: #000;
+        text-decoration: none;
+        flex: none;
+      }
+      a::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px dotted #000;
+        transform: translateY(-4px);
+      }
+      @media (max-width: 640px) {
+        .sheet {
+          margin: 0;
+          padding: 32px 20px 48px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="sheet">
+      <h1>MỤC LỤC</h1>
+      <!-- Thêm game: chép một dòng <li> rồi sửa tên và link. -->
+      <ol>
+        <li><a href="https://bekhampha.netlify.app/games/dinh-lo-giang/">Đình làng Lỗ Giáng – Đúng hay Sai?</a></li>
+        <li><a href="https://bekhampha.netlify.app/games/dua-thuyen-hoa-xuan/">Đua thuyền trên sông</a></li>
+        <li><a href="https://bekhampha.netlify.app/games/cho-phien-hoa-xuan/">Hành trình khám phá chợ phiên</a></li>
+        <li><a href="https://bekhampha.netlify.app/games/nghieng-dau-muc-dong/">Nghiêng Đầu – Lễ hội Mục Đồng</a></li>
+        <li><a href="https://giaoviendoimoi.com/join?code=76549">Đua thuyền về đích</a></li>
+        <li><a href="https://ais-pre-aafwugeselu5jdapcy2q4e-352675018782.asia-east1.run.app/">Tam Giang Thánh Điện</a></li>
+      </ol>
+    </main>
+  </body>
+</html>

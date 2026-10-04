@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#6EC6E0" />
+    <meta
+      name="description"
+      content="Nghiêng đầu chọn đáp án đúng – khám phá Lễ hội Mục Đồng cùng Bé Sen (dùng camera)."
+    />
+    <title>Nghiêng Đầu chọn đáp án | Lễ hội Mục Đồng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800&family=Fredoka:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="world" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="lantern l1"></div>
+      <div class="lantern l2"></div>
+      <div class="hill back"></div>
+      <div class="hill"></div>
+    </div>
+
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+    <section id="screen-start" class="screen screen-start is-active" aria-label="Màn hình bắt đầu">
+      <div class="start-stage">
+        <a class="back-hub" href="../../">← Bé Khám Phá</a>
+        <p class="brand">Lễ hội Mục Đồng</p>
+        <h1 class="title">
+          <span class="title-line">Nghiêng Đầu</span>
+          <span class="title-sub">Chọn đáp án đúng</span>
+        </h1>
+        <p class="tagline">Cùng Bé Sen nghiêng đầu trước camera để chọn câu trả lời về Lễ hội Mục Đồng nhé!</p>
+
+        <div class="how-row" aria-hidden="true">
+          <div class="how-chip">
+            <span>👈</span>
+            <strong>Nghiêng trái = A</strong>
+          </div>
+          <div class="how-chip">
+            <span>👉</span>
+            <strong>Nghiêng phải = B</strong>
+          </div>
+        </div>
+
+        <div class="host-wrap" aria-hidden="true">
+          <img class="host host-idle" src="../../assets/be-sen.png?v=2" alt="Bé Sen" />
+          <p class="host-bubble">Chào bé! Mình là Bé Sen. Nghiêng đầu sang trái chọn A, sang phải chọn B nhé!</p>
+        </div>
+
+        <p id="cam-status" class="cam-status">Game cần bật camera để nhìn thấy đầu của bé.</p>
+
+        <button type="button" id="btn-start" class="btn btn-primary btn-xl">Bật camera &amp; chơi</button>
+        <label class="voice-toggle">
+          <input type="checkbox" id="toggle-voice" checked />
+          <span>Nghe Bé Sen đọc câu hỏi</span>
+        </label>
+      </div>
+    </section>
+
+    <section id="screen-play" class="screen screen-play" aria-label="Màn hình chơi" hidden>
+      <header class="play-bar">
+        <a class="back-hub mini" href="../../">←</a>
+        <div class="progress-wrap">
+          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+          <p id="progress-text" class="progress-text">Câu 1 / 10</p>
+        </div>
+        <button type="button" id="btn-speak" class="btn btn-icon" aria-label="Đọc lại câu hỏi" title="Đọc lại">
+          🔊
+        </button>
+      </header>
+
+      <div class="play-main">
+        <div class="cam-panel">
+          <div class="cam-frame">
+            <video id="cam-video" playsinline muted autoplay></video>
+            <canvas id="cam-overlay" aria-hidden="true"></canvas>
+            <div id="face-guide" class="face-guide" aria-hidden="true"></div>
+          </div>
+          <div class="tilt-meter" aria-hidden="true">
+            <div class="tilt-track">
+              <span class="tilt-side left">A</span>
+              <div id="tilt-needle" class="tilt-needle"></div>
+              <span class="tilt-side right">B</span>
+            </div>
+            <p id="tilt-hint" class="tilt-hint">Đưa mặt vào khung · Nghiêng đầu để chọn</p>
+            <div id="tilt-hold" class="tilt-hold" hidden>
+              <div id="tilt-hold-fill" class="tilt-hold-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="qa-col">
+          <div class="host-mini" aria-hidden="true">
+            <img id="host-play" class="host host-idle" src="../../assets/be-sen.png?v=2" alt="" />
+          </div>
+
+          <article class="statement-board" aria-live="polite">
+            <p class="statement-kicker" id="question-kicker">Câu hỏi 1</p>
+            <p id="statement-text" class="statement-text"></p>
+          </article>
+
+          <div class="choice-row" id="choice-row">
+            <button type="button" class="choice-card choice-a" data-answer="A" aria-label="Chọn đáp án A">
+              <span class="choice-key">A</span>
+              <span class="choice-label" id="label-a"></span>
+            </button>
+            <button type="button" class="choice-card choice-b" data-answer="B" aria-label="Chọn đáp án B">
+              <span class="choice-key">B</span>
+              <span class="choice-label" id="label-b"></span>
+            </button>
+          </div>
+          <p class="tap-fallback">Hoặc chạm vào đáp án nếu camera chưa sẵn sàng</p>
+        </div>
+      </div>
+    </section>
+
+    <div id="feedback" class="feedback" hidden role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+      <div class="feedback-card">
+        <div id="feedback-emoji" class="feedback-emoji" aria-hidden="true">🎉</div>
+        <h2 id="feedback-title" class="feedback-title">Giỏi quá!</h2>
+        <p id="feedback-explain" class="feedback-explain"></p>
+        <button type="button" id="btn-next" class="btn btn-primary btn-lg">Câu tiếp theo</button>
+      </div>
+    </div>
+
+    <section id="screen-result" class="screen screen-result" aria-label="Màn hình tổng kết" hidden>
+      <div class="result-stage">
+        <p class="brand">Lễ hội Mục Đồng</p>
+        <h2 class="result-title">Bé thật tuyệt vời!</h2>
+        <div class="result-trophy" aria-hidden="true">🏆</div>
+        <div class="result-stats">
+          <div class="stat">
+            <span class="stat-value" id="result-correct">0</span>
+            <span class="stat-label">Câu đúng</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="result-total">10</span>
+            <span class="stat-label">Tổng câu</span>
+          </div>
+        </div>
+        <p id="result-message" class="result-message"></p>
+        <ul id="review-list" class="review-list" aria-label="Xem lại câu trả lời"></ul>
+        <div class="result-actions">
+          <button type="button" id="btn-replay" class="btn btn-primary btn-xl">Chơi lại</button>
+          <button type="button" id="btn-home" class="btn btn-secondary btn-lg">Về trang đầu</button>
+        </div>
+      </div>
+    </section>
+
+    <script src="content.js"></script>
+    <script src="audio-manifest.js"></script>
+    <script type="module" src="game.js"></script>
+  </body>
+</html>
