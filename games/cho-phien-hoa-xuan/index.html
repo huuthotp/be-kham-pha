@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#6EC6E0" />
+    <meta
+      name="description"
+      content="Hành trình khám phá Chợ phiên Làng trong phố Hòa Xuân — mini game cho trẻ mẫu giáo."
+    />
+    <title>Hành trình khám phá chợ phiên | Hòa Xuân</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800&family=Fredoka:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=3" />
+  </head>
+  <body>
+    <div class="world" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="lantern l1"></div>
+      <div class="lantern l2"></div>
+    </div>
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+    <main class="app">
+      <section id="screen-start" class="screen is-active" aria-label="Màn hình giới thiệu">
+        <a class="back-hub" href="../../">← Bé Khám Phá</a>
+        <p class="eyebrow">Chợ phiên Làng trong phố – Hòa Xuân</p>
+        <h1 class="title">Hành trình<br />khám phá chợ phiên</h1>
+        <p class="lead">Cùng bé khám phá những điều thú vị ở Chợ phiên Làng trong phố Hòa Xuân nhé!</p>
+
+        <ul class="start-path" aria-label="Bốn khu chợ">
+          <li><span>🛍️</span>Gian hàng</li>
+          <li><span>🍜</span>Món ngon</li>
+          <li><span>🤝</span>Chợ vui</li>
+          <li><span>🌱</span>Bé văn minh</li>
+        </ul>
+
+        <div class="host-wrap" id="host-start">
+          <img class="host-svg" src="../../assets/be-sen.png?v=2" alt="Bé Sen" />
+          <p class="host-bubble">Chào bé! Mình là Bé Sen. Mình cùng đi chợ phiên nhé!</p>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-xl" id="btn-start">Bắt đầu khám phá</button>
+        <div class="toggles">
+          <label class="toggle">
+            <input type="checkbox" id="toggle-voice" checked />
+            <span>Bé Sen đọc câu hỏi</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-music" checked />
+            <span>Nhạc nền nhẹ</span>
+          </label>
+        </div>
+      </section>
+
+      <section id="screen-play" class="screen" hidden aria-label="Màn hình chơi">
+        <header class="play-bar">
+          <a class="back-hub" href="../../">←</a>
+          <ol id="path" class="path" aria-label="Hành trình khám phá"></ol>
+          <ul id="badge-tray" class="badge-tray" aria-label="Huy hiệu đã nhận"></ul>
+          <button type="button" class="icon-btn" id="btn-speak" aria-label="Đọc lại câu hỏi">🔊</button>
+        </header>
+
+        <div class="play-body">
+          <div class="diorama" id="diorama" data-look="gate" aria-label="Chợ phiên">
+            <div class="skyline" aria-hidden="true">
+              <i class="mini-sun"></i>
+              <i class="mini-cloud a"></i>
+              <i class="mini-cloud b"></i>
+              <div class="bunting"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="ground" aria-hidden="true"></div>
+
+            <div class="sparkles" aria-hidden="true"><span>✨</span><span>⭐</span><span>✨</span><span>🌟</span></div>
+            <p class="plaza-sign" aria-hidden="true">CHỢ PHIÊN<br />LÀNG TRONG PHỐ</p>
+            <div class="hometown" aria-hidden="true">
+              <strong>Hòa Xuân</strong>
+              <span>🏡 👨‍👩‍👧 🌸 🤝</span>
+            </div>
+
+            <div class="stalls" id="stalls">
+              <button type="button" class="stall" data-stall="food" tabindex="-1" aria-hidden="true">
+                <span class="awning food"></span>
+                <span class="stall-emoji">🍜</span>
+                <span class="stall-label">Món ăn</span>
+                <span class="pop-items">🥟🥭</span>
+              </button>
+              <button type="button" class="stall" data-stall="gift" tabindex="-1" aria-hidden="true">
+                <span class="awning gift"></span>
+                <span class="stall-emoji">🎁</span>
+                <span class="stall-label">Sản phẩm</span>
+                <span class="pop-items">🧺🌸</span>
+              </button>
+              <button type="button" class="stall" data-stall="show" tabindex="-1" aria-hidden="true">
+                <span class="awning show"></span>
+                <span class="stall-emoji">🎪</span>
+                <span class="stall-label">Hoạt động</span>
+                <span class="pop-items">🎈🥁</span>
+              </button>
+            </div>
+
+            <div class="gate" aria-hidden="true">
+              <div class="roof"></div>
+              <p class="gate-sign">CHỢ PHIÊN<br /><small>LÀNG TRONG PHỐ</small></p>
+              <div class="doors">
+                <div class="door door-l"></div>
+                <div class="door door-r"></div>
+              </div>
+            </div>
+
+            <div class="goodies" aria-hidden="true"><span>🥭</span><span>🧺</span><span>🌸</span><span>🎁</span><span>🥟</span></div>
+            <div class="foods" aria-hidden="true">
+              <span>🍜</span><span>🥮</span><span>🥥</span><span>🍯</span>
+              <i class="steam"></i>
+            </div>
+            <div class="mess" aria-hidden="true"><span>📄</span><span>🍃</span><span>🧻</span></div>
+
+            <div class="person seller">
+              <span class="non"></span>
+              <span class="hi">👋</span>
+              <span class="arm l"></span>
+              <span class="arm r"></span>
+              <span class="head"><i class="eye l"></i><i class="eye r"></i><i class="mouth"></i></span>
+              <span class="body"></span>
+            </div>
+            <div class="person pal pal-a">
+              <span class="hi">👋</span>
+              <span class="arm l"></span>
+              <span class="arm r"></span>
+              <span class="head"><i class="eye l"></i><i class="eye r"></i><i class="mouth"></i></span>
+              <span class="body"></span>
+            </div>
+            <div class="person pal pal-b">
+              <span class="hi">👏</span>
+              <span class="arm l"></span>
+              <span class="arm r"></span>
+              <span class="head"><i class="eye l"></i><i class="eye r"></i><i class="mouth"></i></span>
+              <span class="body"></span>
+            </div>
+            <div class="person teacher" id="teacher">
+              <span class="bun"></span>
+              <span class="hi">😊</span>
+              <span class="arm l"></span>
+              <span class="arm r"></span>
+              <span class="head"><i class="eye l"></i><i class="eye r"></i><i class="mouth"></i></span>
+              <span class="body"></span>
+            </div>
+            <div class="person hero" id="hero">
+              <span class="petal"></span>
+              <span class="run">💨</span>
+              <span class="hi">👋</span>
+              <span class="paper">📄</span>
+              <span class="arm l"></span>
+              <span class="arm r"></span>
+              <span class="head"><i class="eye l"></i><i class="eye r"></i><i class="mouth"></i></span>
+              <span class="body"></span>
+            </div>
+
+            <div class="trash-play" id="trash-play" hidden>
+              <button type="button" class="bin" id="bin" aria-label="Thùng rác">
+                <span class="bin-lid"></span>
+                <span class="bin-body">🗑️</span>
+              </button>
+              <button type="button" class="scrap" id="scrap" aria-label="Mẩu giấy">📄</button>
+            </div>
+
+            <p id="toast" class="toast" hidden></p>
+          </div>
+
+          <section class="panel" aria-live="polite">
+            <div class="panel-host" id="host-play">
+              <img src="../../assets/be-sen.png?v=2" alt="" />
+              <p id="bubble" class="bubble"></p>
+            </div>
+            <h2 id="question" class="question"></h2>
+            <div id="options" class="options"></div>
+            <p id="coach" class="coach" hidden></p>
+            <div id="explore-row" class="explore-row" hidden></div>
+            <div id="trash-actions" hidden>
+              <button type="button" class="btn btn-primary" id="btn-drop">Bỏ vào thùng</button>
+            </div>
+            <p id="feedback" class="feedback" hidden></p>
+            <button type="button" class="btn btn-primary" id="btn-next" hidden>Đi tiếp</button>
+          </section>
+        </div>
+
+        <div id="zone-card" class="zone-card" hidden>
+          <div class="zone-inner">
+            <p id="zone-kicker" class="zone-kicker"></p>
+            <div id="zone-emoji" class="zone-emoji"></div>
+            <h2 id="zone-title"></h2>
+            <p id="zone-blurb"></p>
+            <button type="button" class="btn btn-primary" id="btn-zone">Vào khu này</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-finish" class="screen" hidden aria-label="Màn hình hoàn thành">
+        <p class="finish-kicker">🎊 Chúc mừng bé! 🎊</p>
+        <h1 class="title title-finish">Bé đã hoàn thành chuyến khám phá</h1>
+        <p class="finish-name">Chợ phiên Làng trong phố Hòa Xuân!</p>
+        <p class="trophy">🏆</p>
+        <p class="trophy-title">Bé là nhà khám phá chợ phiên</p>
+        <ul id="finish-badges" class="finish-badges"></ul>
+        <p class="quote">Hòa Xuân – quê hương của những điều thân thương!</p>
+        <button type="button" class="btn btn-primary btn-xl" id="btn-replay">🔄 Chơi lại</button>
+        <a class="btn btn-ghost" href="../../">Về trang chủ</a>
+      </section>
+    </main>
+
+    <script src="audio-manifest.js?v=1"></script>
+    <script src="content.js?v=2"></script>
+    <script src="game.js?v=3"></script>
+  </body>
+</html>

@@ -30,11 +30,39 @@
 
     <main class="page">
       <header class="hero">
-        <h1 class="brand">Bé Khám Phá</h1>
-        <span class="brand-sub">Làng Xanh Vui</span>
-        <p class="tagline">Cùng Bé Sen và bạn bè khám phá quê hương qua những trò chơi vui nhộn!</p>
+        <div class="brand-lockup">
+          <h1 class="brand">Bé Khám Phá</h1>
+          <span class="brand-sub">Làng Xanh Vui</span>
+        </div>
+        <p class="tagline">Cùng Bé Sen khám phá quê hương qua những trò chơi vui nhộn!</p>
       </header>
 
+      <h2 class="section-title">Kho trò chơi</h2>
+      <div class="games">
+        <article class="game-card live">
+          <span class="badge open">Đang mở</span>
+          <h3>Đình làng Lỗ Giáng – Đúng hay Sai?</h3>
+          <p>5 câu hỏi vui để bé hiểu về đình làng và cách giữ gìn di tích.</p>
+          <a class="btn" href="games/dinh-lo-giang/">Vào chơi ngay</a>
+        </article>
+
+        <article class="game-card live">
+          <span class="badge open">Đang mở</span>
+          <h3>Đua thuyền trên sông</h3>
+          <p>Đội Xanh &amp; Đội Đỏ chèo thuyền rồng, trả lời câu hỏi để về đích – Giải đua thuyền Hòa Xuân.</p>
+          <a class="btn" href="games/dua-thuyen-hoa-xuan/">Vào đua thử</a>
+        </article>
+
+        <article class="game-card live">
+          <span class="badge open">Đang mở</span>
+          <h3>Hành trình khám phá chợ phiên</h3>
+          <p>Bé đi qua cổng chợ Hòa Xuân, gặp gian hàng, món ngon và học cách đi chợ văn minh.</p>
+          <a class="btn" href="games/cho-phien-hoa-xuan/">Vào chợ chơi</a>
+        </article>
+
+      </div>
+
+      <section class="welcome">
       <div class="cast-stage" aria-hidden="true">
         <!-- Cậu Lồng -->
         <div class="mascot" title="Cậu Lồng">
@@ -53,28 +81,8 @@
           </svg>
         </div>
 
-        <!-- Bé Sen (center, larger) -->
         <div class="mascot lg" title="Bé Sen">
-          <svg viewBox="0 0 128 148" role="img">
-            <ellipse cx="64" cy="138" rx="34" ry="8" fill="rgba(31,58,46,.15)" />
-            <g style="animation: floaty 2.6s ease-in-out infinite">
-              <ellipse cx="64" cy="108" rx="36" ry="28" fill="#FF8FAB" />
-              <ellipse cx="64" cy="108" rx="24" ry="18" fill="#FFC2D1" />
-              <ellipse cx="28" cy="100" rx="14" ry="9" fill="#5ECF7B" transform="rotate(-25 28 100)" />
-              <ellipse cx="100" cy="100" rx="14" ry="9" fill="#5ECF7B" transform="rotate(25 100 100)" />
-              <circle cx="64" cy="58" r="38" fill="#FFE0B8" />
-              <path d="M40 28 Q50 4 64 22 Q78 4 88 28 Q76 18 64 30 Q52 18 40 28Z" fill="#FF6B81" />
-              <path d="M48 26 Q58 10 64 24 Q70 10 80 26 Q70 20 64 28 Q58 20 48 26Z" fill="#FFD1DC" />
-              <circle cx="64" cy="18" r="5" fill="#FFD45A" />
-              <ellipse cx="50" cy="58" rx="5.5" ry="7" fill="#1F3A2E" />
-              <ellipse cx="78" cy="58" rx="5.5" ry="7" fill="#1F3A2E" />
-              <circle cx="48" cy="55" r="2" fill="#fff" />
-              <circle cx="76" cy="55" r="2" fill="#fff" />
-              <circle cx="42" cy="70" r="6" fill="#FFB4A8" opacity=".9" />
-              <circle cx="86" cy="70" r="6" fill="#FFB4A8" opacity=".9" />
-              <path d="M50 74 Q64 88 78 74" fill="none" stroke="#C94334" stroke-width="3.5" stroke-linecap="round" />
-            </g>
-          </svg>
+          <img src="assets/be-sen.png?v=2" alt="Bé Sen" />
         </div>
 
         <!-- Chị Cò -->
@@ -95,83 +103,8 @@
         </div>
       </div>
 
-      <p class="speech">Chào bé! Mình là Bé Sen. Đây là Cậu Lồng và Chị Cò. Cùng vào Làng Xanh Vui chơi nào!</p>
-
-      <h2 class="section-title">Bạn bè của bé</h2>
-      <div class="cards">
-        <article class="card">
-          <div class="mascot" aria-hidden="true">
-            <svg viewBox="0 0 128 148">
-              <ellipse cx="64" cy="108" rx="30" ry="22" fill="#FF8FAB" />
-              <circle cx="64" cy="58" r="32" fill="#FFE0B8" />
-              <path d="M44 32 Q64 8 84 32 Q72 24 64 34 Q56 24 44 32Z" fill="#FF6B81" />
-              <ellipse cx="52" cy="56" rx="4.5" ry="6" fill="#1F3A2E" />
-              <ellipse cx="76" cy="56" rx="4.5" ry="6" fill="#1F3A2E" />
-              <path d="M52 72 Q64 82 76 72" fill="none" stroke="#C94334" stroke-width="3" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div>
-            <h3>Bé Sen</h3>
-            <p>MC dẫn chương trình. Hay khen, rất vui, luôn cổ vũ bé cố gắng.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="mascot" aria-hidden="true">
-            <svg viewBox="0 0 120 140">
-              <rect x="36" y="40" width="48" height="56" rx="14" fill="#FF5A4A" />
-              <rect x="42" y="48" width="36" height="28" rx="8" fill="#FFD45A" />
-              <circle cx="50" cy="60" r="4" fill="#1F3A2E" />
-              <circle cx="70" cy="60" r="4" fill="#1F3A2E" />
-              <path d="M52 72 Q60 78 68 72" fill="none" stroke="#C94334" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div>
-            <h3>Cậu Lồng</h3>
-            <p>Đèn lồng tinh nghịch. Hay “bật sáng” ý hay và tạo bất ngờ vui.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="mascot" aria-hidden="true">
-            <svg viewBox="0 0 120 140">
-              <ellipse cx="60" cy="88" rx="22" ry="28" fill="#FFFDF8" />
-              <circle cx="60" cy="52" r="20" fill="#FFFDF8" />
-              <path d="M78 52 L98 46 L82 58 Z" fill="#FFD45A" />
-              <circle cx="54" cy="50" r="4" fill="#1F3A2E" />
-              <path d="M50 62 Q58 68 66 60" fill="none" stroke="#C94334" stroke-width="2.4" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div>
-            <h3>Chị Cò</h3>
-            <p>Chỉ đường dịu dàng. Nhắc bé giữ gìn và yêu quý làng xóm.</p>
-          </div>
-        </article>
-      </div>
-
-      <h2 class="section-title">Kho trò chơi</h2>
-      <div class="games">
-        <article class="game-card live">
-          <span class="badge open">Đang mở</span>
-          <h3>Đình làng Lỗ Giáng – Đúng hay Sai?</h3>
-          <p>5 câu hỏi vui để bé hiểu về đình làng và cách giữ gìn di tích.</p>
-          <a class="btn" href="games/dinh-lo-giang/">Vào chơi ngay</a>
-        </article>
-
-        <article class="game-card live">
-          <span class="badge open">Đang mở</span>
-          <h3>Đua thuyền trên sông</h3>
-          <p>Đội Xanh &amp; Đội Đỏ chèo thuyền rồng, trả lời câu hỏi để về đích – Giải đua thuyền Hòa Xuân.</p>
-          <a class="btn" href="games/dua-thuyen-hoa-xuan/">Vào đua thử</a>
-        </article>
-
-        <article class="game-card">
-          <span class="badge soon">Sắp có</span>
-          <h3>Đèn lồng màu gì?</h3>
-          <p>Cậu Lồng mang màu sắc đến — bé học màu và đếm vui vẻ.</p>
-          <button class="btn ghost" type="button" disabled>Chờ bé một chút nhé</button>
-        </article>
-      </div>
+      <p class="speech">Chào bé! Mình là Bé Sen. Cùng vào Làng Xanh Vui chơi nào!</p>
+      </section>
 
       <p class="footer-note">Dành cho trẻ mẫu giáo • An toàn • Không quảng cáo</p>
     </main>

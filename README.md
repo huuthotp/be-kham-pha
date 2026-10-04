@@ -24,7 +24,8 @@ be-kham-pha/
   shared/             ← theme, nhân vật dùng chung
   assets/
   games/
-    dinh-lo-giang/    ← mini game Đúng/Sai
+    dinh-lo-giang/       ← mini game Đúng/Sai
+    cho-phien-hoa-xuan/  ← hành trình khám phá chợ phiên
   docs/
 ```
 

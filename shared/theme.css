@@ -215,14 +215,25 @@ button {
 .page {
   position: relative;
   z-index: 1;
-  width: min(720px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
   padding: calc(18px + var(--safe-top)) 18px calc(28px + var(--safe-bottom));
 }
 
 .hero {
-  text-align: center;
-  padding: 8px 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  text-align: left;
+  padding: 4px 0 8px;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .brand {
@@ -237,7 +248,7 @@ button {
 
 .brand-sub {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 0;
   padding: 6px 14px;
   border-radius: 999px;
   background: var(--sun);
@@ -249,11 +260,12 @@ button {
 }
 
 .tagline {
-  margin: 14px auto 0;
-  max-width: 34ch;
+  margin: 0;
+  max-width: 36ch;
   color: var(--ink-soft);
   font-weight: 600;
   line-height: 1.45;
+  text-align: right;
 }
 
 .cast-stage {
@@ -289,8 +301,15 @@ button {
 }
 
 .mascot.lg {
-  width: 140px;
-  height: 160px;
+  width: 168px;
+  height: 220px;
+}
+
+.mascot.lg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .speech {
@@ -317,46 +336,17 @@ button {
 }
 
 .section-title {
-  margin: 22px 0 12px;
+  margin: 8px 0 12px;
   font-family: var(--font-display);
   font-size: 1.45rem;
-  text-align: center;
-}
-
-.cards {
-  display: grid;
-  gap: 12px;
-}
-
-.card {
-  display: grid;
-  grid-template-columns: 84px 1fr;
-  gap: 12px;
-  align-items: center;
-  background: rgba(255, 249, 238, 0.94);
-  border: 3px solid rgba(255, 228, 168, 0.95);
-  border-radius: 24px;
-  padding: 12px;
-  box-shadow: var(--shadow);
-}
-
-.card h3 {
-  margin: 0 0 4px;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-}
-
-.card p {
-  margin: 0;
-  font-size: 0.92rem;
-  color: var(--ink-soft);
-  line-height: 1.35;
-  font-weight: 500;
+  text-align: left;
 }
 
 .games {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+  align-items: stretch;
 }
 
 .game-card {
@@ -407,6 +397,38 @@ button {
   color: #8a5a00;
 }
 
+.game-card .btn {
+  margin-top: auto;
+}
+
+.welcome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.welcome .cast-stage {
+  margin: 0;
+  min-height: 0;
+  flex: none;
+}
+
+.welcome .speech {
+  margin: 0;
+  max-width: none;
+  text-align: left;
+}
+
+.welcome .speech::before {
+  top: 50%;
+  left: -18px;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-right-color: var(--paper-edge);
+  border-bottom-color: transparent;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -442,7 +464,40 @@ button {
   font-weight: 600;
 }
 
+@media (max-width: 980px) {
+  .games {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .hero,
+  .welcome {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .brand-lockup,
+  .tagline,
+  .section-title,
+  .welcome .speech {
+    text-align: center;
+  }
+
+  .welcome .speech::before {
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: var(--paper-edge);
+  }
+}
+
 @media (max-width: 520px) {
+  .games {
+    grid-template-columns: 1fr;
+  }
+
   .cast-stage {
     min-height: 140px;
   }
@@ -450,10 +505,6 @@ button {
   .mascot {
     width: 92px;
     height: 110px;
-  }
-
-  .card {
-    grid-template-columns: 72px 1fr;
   }
 }
 

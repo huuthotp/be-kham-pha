@@ -84,23 +84,21 @@
     start: document.getElementById("screen-start"),
     play: document.getElementById("screen-play"),
     result: document.getElementById("screen-result"),
-    feedback: document.getElementById("feedback"),
-    feedbackCard: document.getElementById("feedback-card"),
-    feedbackEmoji: document.getElementById("feedback-emoji"),
-    feedbackTitle: document.getElementById("feedback-title"),
-    feedbackExplain: document.getElementById("feedback-explain"),
     btnStart: document.getElementById("btn-start"),
-    btnA: document.getElementById("btn-a"),
-    btnB: document.getElementById("btn-b"),
     optA: document.getElementById("opt-a"),
     optB: document.getElementById("opt-b"),
+    optLineA: document.getElementById("opt-line-a"),
+    optLineB: document.getElementById("opt-line-b"),
     btnNext: document.getElementById("btn-next"),
     btnReplay: document.getElementById("btn-replay"),
     btnSpeak: document.getElementById("btn-speak"),
     toggleVoice: document.getElementById("toggle-voice"),
-    turnBanner: document.getElementById("turn-banner"),
     qKicker: document.getElementById("q-kicker"),
     qText: document.getElementById("q-text"),
+    padA: document.getElementById("pad-a"),
+    padB: document.getElementById("pad-b"),
+    statusA: document.getElementById("status-a"),
+    statusB: document.getElementById("status-b"),
     boatA: document.getElementById("boat-a"),
     boatB: document.getElementById("boat-b"),
     resultTitle: document.getElementById("result-title"),
@@ -112,15 +110,16 @@
 
   const state = {
     progress: { a: 0, b: 0 },
-    turn: 0, // 0 = Xanh, 1 = Đỏ
-    locked: false,
     voiceOn: true,
     audioCtx: null,
     finished: { a: false, b: false },
     asked: { a: 0, b: 0 },
     used: { a: 0, b: 0 },
-    decks: { a: [], b: [] },
-    cursor: { a: 0, b: 0 },
+    picks: { a: null, b: null },
+    justFinished: { a: false, b: false },
+    deck: [],
+    cursor: 0,
+    roundOpen: false,
     currentQ: null,
     cachedVoice: null,
     ttsAudio: null,
@@ -333,10 +332,6 @@
     playNext();
   }
 
-  function currentTeam() {
-    return TEAMS[state.turn];
-  }
-
   function updateBoats() {
     el.boatA.style.setProperty("--step", String(state.progress.a));
     el.boatB.style.setProperty("--step", String(state.progress.b));
@@ -350,43 +345,34 @@
     setTimeout(() => boat.classList.remove("is-rowing"), 600);
   }
 
-  function updateTurnBanner() {
-    const team = currentTeam();
-    el.turnBanner.textContent = `Lượt ${team.name}`;
-    el.turnBanner.classList.toggle("team-b", team.id === "b");
-  }
-
-  function otherTeam(team) {
-    return TEAMS.find((item) => item.id !== team.id);
-  }
-
   function bothFinished() {
     return state.finished.a && state.finished.b;
   }
 
-  function dealQuestions() {
-    const deck = shuffle(QUESTIONS);
-    const half = Math.floor(deck.length / 2);
-    state.decks = {
-      a: deck.slice(0, half),
-      b: deck.slice(half, half * 2)
-    };
-    state.cursor = { a: 0, b: 0 };
+  function teamPad(teamId) {
+    return teamId === "a" ? el.padA : el.padB;
   }
 
-  function takeQuestion(teamId) {
-    let deck = state.decks[teamId];
-    if (!deck.length) {
-      state.decks[teamId] = shuffle(QUESTIONS);
-      deck = state.decks[teamId];
+  function teamStatus(teamId) {
+    return teamId === "a" ? el.statusA : el.statusB;
+  }
+
+  function teamButtons(teamId) {
+    return [...document.querySelectorAll(`.pad-btn[data-team="${teamId}"]`)];
+  }
+
+  function dealQuestions() {
+    state.deck = shuffle(QUESTIONS);
+    state.cursor = 0;
+  }
+
+  function takeQuestion() {
+    if (state.cursor >= state.deck.length) {
+      state.deck = shuffle(QUESTIONS);
+      state.cursor = 0;
     }
-    if (state.cursor[teamId] >= deck.length) {
-      state.decks[teamId] = shuffle(deck);
-      state.cursor[teamId] = 0;
-      deck = state.decks[teamId];
-    }
-    const question = deck[state.cursor[teamId]];
-    state.cursor[teamId] += 1;
+    const question = state.deck[state.cursor];
+    state.cursor += 1;
     state.currentQ = question;
     return question;
   }
@@ -395,105 +381,126 @@
     return state.currentQ;
   }
 
+  function waitingTeamName() {
+    const waiting = TEAMS.filter((team) => !state.finished[team.id] && !state.picks[team.id]);
+    if (waiting.length === 1) return waiting[0].name;
+    return "";
+  }
+
   function renderQuestion() {
-    state.locked = false;
-    const team = currentTeam();
-    const q = takeQuestion(team.id);
-    el.qKicker.textContent = `${team.name} trả lời`;
+    const q = takeQuestion();
+    state.picks = { a: null, b: null };
+    state.justFinished = { a: false, b: false };
+    state.roundOpen = true;
+    el.qKicker.textContent = "Cả hai đội cùng chọn";
     el.qText.textContent = q.question;
     el.optA.textContent = q.optionA;
     el.optB.textContent = q.optionB;
-    el.btnA.disabled = false;
-    el.btnB.disabled = false;
-    updateTurnBanner();
+    el.optLineA.classList.remove("is-right");
+    el.optLineB.classList.remove("is-right");
+    el.btnNext.hidden = true;
+    TEAMS.forEach((team) => resetPad(team.id));
     updateBoats();
-    speakParts([`${team.name} ơi!`, q.question, `A. ${q.optionA}`, `B. ${q.optionB}`]);
+    speakParts([q.question, `A. ${q.optionA}`, `B. ${q.optionB}`]);
   }
 
-  function openFeedback(isCorrect, explain, advanced, justFinished) {
-    const team = currentTeam();
-    const other = otherTeam(team);
-    el.feedback.hidden = false;
-    el.feedbackCard.classList.toggle("is-wrong", !isCorrect);
-    el.feedbackEmoji.textContent = justFinished ? "🏁" : isCorrect ? (advanced ? "🐉" : "🎉") : "💪";
-
-    if (justFinished && bothFinished()) {
-      el.feedbackTitle.textContent = "Cả hai đội đã về đích!";
-      el.feedbackExplain.textContent = `${explain} Giỏi quá các thủy thủ nhí!`;
-      el.btnNext.textContent = "Xem kết quả";
-    } else if (justFinished) {
-      el.feedbackTitle.textContent = `${team.name} tới đích!`;
-      el.feedbackExplain.textContent = `${explain} ${other.name} vẫn được trả lời tiếp nhé!`;
-      el.btnNext.textContent = `Lượt ${other.name}`;
-    } else if (isCorrect) {
-      el.feedbackTitle.textContent = advanced ? "Thuyền rồng tiến lên!" : "Giỏi quá!";
-      el.feedbackExplain.textContent = `${explain} ${advanced ? "Chèo tiếp nào!" : ""}`;
-      el.btnNext.textContent = "Lượt tiếp theo";
+  function resetPad(teamId) {
+    const pad = teamPad(teamId);
+    const status = teamStatus(teamId);
+    pad.classList.remove("is-correct", "is-wrong", "is-done", "is-waiting");
+    teamButtons(teamId).forEach((btn) => {
+      btn.classList.remove("is-picked", "is-right", "is-bad");
+      btn.disabled = state.finished[teamId];
+    });
+    if (state.finished[teamId]) {
+      pad.classList.add("is-done");
+      status.textContent = "Đã về đích!";
     } else {
-      el.feedbackTitle.textContent = "Chưa đúng!";
-      el.feedbackExplain.textContent = `${explain} Thuyền chưa tiến, cố lên nhé!`;
-      el.btnNext.textContent = "Lượt tiếp theo";
+      pad.classList.add("is-waiting");
+      status.textContent = "Chọn đáp án nào!";
     }
-
-    speakParts([el.feedbackTitle.textContent, explain].concat(
-      justFinished && bothFinished()
-        ? ["Giỏi quá các thủy thủ nhí!"]
-        : justFinished
-          ? [`${other.name} vẫn được trả lời tiếp nhé!`]
-          : isCorrect && advanced
-            ? ["Chèo tiếp nào!"]
-            : isCorrect
-              ? []
-              : ["Thuyền chưa tiến, cố lên nhé!"]
-    ));
   }
 
-  function closeFeedback() {
-    el.feedback.hidden = true;
-    stopSpeak();
+  function bothResponded() {
+    return TEAMS.every((team) => state.finished[team.id] || state.picks[team.id]);
   }
 
-  function answer(choice) {
-    if (state.locked) return;
-    state.locked = true;
+  function answer(teamId, choice) {
+    if (!state.roundOpen || state.finished[teamId] || state.picks[teamId]) return;
     unlockAudio();
-    el.btnA.disabled = true;
-    el.btnB.disabled = true;
-
     const q = currentQuestion();
-    const team = currentTeam();
     const isCorrect = choice === q.answer;
-    let advanced = false;
-    let justFinished = false;
+    state.picks[teamId] = choice;
+    state.asked[teamId] += 1;
 
-    state.asked[team.id] += 1;
+    const pad = teamPad(teamId);
+    const status = teamStatus(teamId);
+    pad.classList.remove("is-waiting");
+    teamButtons(teamId).forEach((btn) => {
+      btn.disabled = true;
+      if (btn.dataset.choice === choice) btn.classList.add("is-picked");
+    });
 
-    if (isCorrect && state.progress[team.id] < STEPS_TO_WIN) {
+    if (isCorrect && state.progress[teamId] < STEPS_TO_WIN) {
       playCorrect();
-      state.progress[team.id] += 1;
-      advanced = true;
+      state.progress[teamId] += 1;
       updateBoats();
-      pulseBoat(team.id);
-      if (state.progress[team.id] >= STEPS_TO_WIN) {
-        state.finished[team.id] = true;
-        state.used[team.id] = state.asked[team.id];
-        justFinished = true;
+      pulseBoat(teamId);
+      pad.classList.add("is-correct");
+      if (state.progress[teamId] >= STEPS_TO_WIN) {
+        state.finished[teamId] = true;
+        state.used[teamId] = state.asked[teamId];
+        state.justFinished[teamId] = true;
+        status.textContent = "Đúng! Về đích rồi!";
+      } else {
+        status.textContent = "Đúng! Thuyền tiến lên!";
       }
     } else if (!isCorrect) {
       playWrong();
+      pad.classList.add("is-wrong");
+      status.textContent = "Chưa đúng, thuyền đứng yên";
     }
 
-    openFeedback(isCorrect, q.explain, advanced, justFinished);
+    const otherWaiting = waitingTeamName();
+    if (!bothResponded()) {
+      el.qKicker.textContent = otherWaiting ? `${otherWaiting} chọn tiếp nhé!` : "Cả hai đội cùng chọn";
+      return;
+    }
+
+    closeRound();
+  }
+
+  function closeRound() {
+    state.roundOpen = false;
+    const q = currentQuestion();
+    const correctLine = q.answer === "A" ? el.optLineA : el.optLineB;
+    correctLine.classList.add("is-right");
+    TEAMS.forEach((team) => {
+      if (state.finished[team.id] && !state.picks[team.id]) return;
+      teamButtons(team.id).forEach((btn) => {
+        if (btn.dataset.choice === q.answer) btn.classList.add("is-right");
+        else if (btn.classList.contains("is-picked")) btn.classList.add("is-bad");
+      });
+    });
+
+    if (bothFinished()) {
+      el.qKicker.textContent = "Cả hai đội đã về đích!";
+      el.btnNext.textContent = "Xem kết quả";
+      speakParts(["Cả hai đội đã về đích!", "Giỏi quá các thủy thủ nhí!"]);
+    } else {
+      el.qKicker.textContent = "Cả hai đội đã chọn xong";
+      el.btnNext.textContent = "Câu tiếp theo";
+      speakParts(["Chúng ta cùng đến câu tiếp theo nhé!"]);
+    }
+    el.btnNext.hidden = false;
   }
 
   function nextTurn() {
-    closeFeedback();
+    stopSpeak();
     if (bothFinished()) {
       showResult();
       return;
     }
-    const other = state.turn === 0 ? 1 : 0;
-    state.turn = state.finished[TEAMS[other].id] ? state.turn : other;
     renderQuestion();
   }
 
@@ -532,12 +539,12 @@
     state.finished = { a: false, b: false };
     state.asked = { a: 0, b: 0 };
     state.used = { a: 0, b: 0 };
-    state.turn = 0;
-    state.locked = false;
+    state.picks = { a: null, b: null };
+    state.justFinished = { a: false, b: false };
+    state.roundOpen = false;
     state.currentQ = null;
     dealQuestions();
     state.voiceOn = el.toggleVoice.checked;
-    closeFeedback();
     stopSpeak();
     showScreen("play");
     if (state.voiceOn) {
@@ -552,16 +559,19 @@
   }
 
   el.btnStart.addEventListener("click", startGame);
-  el.btnA.addEventListener("click", () => answer("A"));
-  el.btnB.addEventListener("click", () => answer("B"));
+  document.querySelector(".play-stage").addEventListener("click", (event) => {
+    const btn = event.target.closest(".pad-btn");
+    if (!btn || btn.disabled) return;
+    answer(btn.dataset.team, btn.dataset.choice);
+  });
   el.btnNext.addEventListener("click", nextTurn);
   el.btnReplay.addEventListener("click", replay);
   el.btnSpeak.addEventListener("click", () => {
     state.voiceOn = true;
     el.toggleVoice.checked = true;
     const q = currentQuestion();
-    const team = currentTeam();
-    speakParts([`${team.name} ơi!`, q.question, `A. ${q.optionA}`, `B. ${q.optionB}`]);
+    if (!q) return;
+    speakParts([q.question, `A. ${q.optionA}`, `B. ${q.optionB}`]);
   });
   el.toggleVoice.addEventListener("change", () => {
     state.voiceOn = el.toggleVoice.checked;

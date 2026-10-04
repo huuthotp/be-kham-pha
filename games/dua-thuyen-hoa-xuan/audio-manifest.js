@@ -45,7 +45,8 @@ window.AUDIO_MANIFEST = {
   "Đội Đỏ vẫn được trả lời tiếp nhé!": "audio/c43.mp3",
   "Cả hai đội đã về đích!": "audio/c44.mp3",
   "Giỏi quá các thủy thủ nhí!": "audio/c45.mp3",
-  "Tuyệt vời! Hai đội cùng về đích!": "audio/c46.mp3",
-  "Tuyệt vời! Đội Xanh về đích nhanh hơn, và Đội Đỏ cũng đã về đích!": "audio/c47.mp3",
-  "Tuyệt vời! Đội Đỏ về đích nhanh hơn, và Đội Xanh cũng đã về đích!": "audio/c48.mp3"
+  "Chúng ta cùng đến câu tiếp theo nhé!": "audio/c46.mp3",
+  "Tuyệt vời! Hai đội cùng về đích!": "audio/c47.mp3",
+  "Tuyệt vời! Đội Xanh về đích nhanh hơn, và Đội Đỏ cũng đã về đích!": "audio/c48.mp3",
+  "Tuyệt vời! Đội Đỏ về đích nhanh hơn, và Đội Xanh cũng đã về đích!": "audio/c49.mp3"
 };

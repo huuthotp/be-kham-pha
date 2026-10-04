@@ -43,6 +43,7 @@ const phrases = [
   "Đội Đỏ vẫn được trả lời tiếp nhé!",
   "Cả hai đội đã về đích!",
   "Giỏi quá các thủy thủ nhí!",
+  "Chúng ta cùng đến câu tiếp theo nhé!",
   "Tuyệt vời! Hai đội cùng về đích!",
   "Tuyệt vời! Đội Xanh về đích nhanh hơn, và Đội Đỏ cũng đã về đích!",
   "Tuyệt vời! Đội Đỏ về đích nhanh hơn, và Đội Xanh cũng đã về đích!"
