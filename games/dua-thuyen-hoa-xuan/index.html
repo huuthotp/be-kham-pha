@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#4DB6C8" />
+    <title>Đua thuyền trên sông | Hòa Xuân – Cẩm Lệ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800&family=Fredoka:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+    </div>
+
+    <main class="app">
+      <!-- START -->
+      <section id="screen-start" class="screen active">
+        <a class="back-hub" href="../../">← Bé Khám Phá</a>
+        <p class="eyebrow">Giải đua thuyền truyền thống</p>
+        <h1 class="title">Đua thuyền<br /><span>trên sông</span></h1>
+        <p class="lead">Cẩm Lệ – Hòa Xuân</p>
+
+        <div class="preview-boats" aria-hidden="true">
+          <div class="boat-chip team-a">
+            <img class="boat-preview" src="assets/boat-xanh.png?v=2" alt="" />
+            <strong>Đội Xanh</strong>
+          </div>
+          <div class="vs">VS</div>
+          <div class="boat-chip team-b">
+            <img class="boat-preview" src="assets/boat-do.png?v=2" alt="" />
+            <strong>Đội Đỏ</strong>
+          </div>
+        </div>
+
+        <p class="intro-bubble" id="intro-text">
+          Các thủy thủ nhí đã sẵn sàng chưa? Hãy cùng nhau vượt qua các câu hỏi để đưa thuyền rồng về đích nhé!
+        </p>
+
+        <button type="button" class="btn btn-primary" id="btn-start">Xuất phát nào!</button>
+        <label class="voice-toggle">
+          <input type="checkbox" id="toggle-voice" checked />
+          <span>Bé Sen đọc câu hỏi</span>
+        </label>
+      </section>
+
+      <!-- PLAY -->
+      <section id="screen-play" class="screen" hidden>
+        <header class="race-header">
+          <div class="turn-banner" id="turn-banner">Lượt Đội Xanh</div>
+          <button type="button" class="btn-icon" id="btn-speak" aria-label="Đọc lại">🔊</button>
+        </header>
+
+        <div class="race-track" aria-label="Đường đua">
+          <div class="bank bank-top" aria-hidden="true">
+            <span class="cheer">👏</span>
+            <i class="pennant xanh"></i>
+            <span class="cheer">🥁</span>
+            <i class="pennant do"></i>
+            <span class="cheer">🎉</span>
+            <i class="pennant vang"></i>
+            <span class="cheer">👏</span>
+          </div>
+          <div class="river">
+            <div class="current" aria-hidden="true"></div>
+            <div class="finish-line" aria-hidden="true"></div>
+            <div class="lane">
+              <span class="lane-label team-a">Xanh</span>
+              <div class="segments" id="segments-a"></div>
+              <div class="boat boat-a" id="boat-a" style="--step: 0">
+                <img src="assets/boat-xanh.png?v=2" alt="Thuyền rồng Đội Xanh" />
+              </div>
+            </div>
+            <div class="midline" aria-hidden="true"></div>
+            <div class="lane">
+              <span class="lane-label team-b">Đỏ</span>
+              <div class="segments" id="segments-b"></div>
+              <div class="boat boat-b" id="boat-b" style="--step: 0">
+                <img src="assets/boat-do.png?v=2" alt="Thuyền rồng Đội Đỏ" />
+              </div>
+            </div>
+          </div>
+          <div class="bank bank-bottom" aria-hidden="true">
+            <i class="pennant do"></i>
+            <span class="cheer">🎊</span>
+            <i class="pennant vang"></i>
+            <span class="cheer">🥁</span>
+            <i class="pennant xanh"></i>
+            <span class="cheer">🙌</span>
+            <i class="pennant do"></i>
+          </div>
+        </div>
+
+        <div class="quiz-dock">
+          <article class="quiz-board">
+            <p class="q-kicker" id="q-kicker">Câu hỏi</p>
+            <p class="q-text" id="q-text"></p>
+          </article>
+
+          <div class="choices">
+            <button type="button" class="choice choice-a" id="btn-a">
+              <span aria-hidden="true">A</span>
+              <strong id="opt-a"></strong>
+            </button>
+            <button type="button" class="choice choice-b" id="btn-b">
+              <span aria-hidden="true">B</span>
+              <strong id="opt-b"></strong>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEEDBACK -->
+      <div id="feedback" class="feedback" hidden>
+        <div class="feedback-card" id="feedback-card">
+          <div class="feedback-emoji" id="feedback-emoji">🎉</div>
+          <h2 id="feedback-title">Giỏi quá!</h2>
+          <p id="feedback-explain"></p>
+          <button type="button" class="btn btn-primary" id="btn-next">Tiếp tục</button>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <section id="screen-result" class="screen" hidden>
+        <div class="trophy" aria-hidden="true">🏆</div>
+        <h1 id="result-title">Hai đội cùng về đích!</h1>
+        <p id="result-sub" class="lead">Tuyệt vời các thủy thủ nhí!</p>
+        <div class="result-scores">
+          <div class="score-pill team-a">Xanh: <strong id="score-a">0</strong></div>
+          <div class="score-pill team-b">Đỏ: <strong id="score-b">0</strong></div>
+        </div>
+        <button type="button" class="btn btn-primary" id="btn-replay">Đua lại</button>
+        <a class="btn btn-ghost" href="../../">Về trang chủ</a>
+      </section>
+    </main>
+
+    <script src="audio-manifest.js?v=2"></script>
+    <script src="game.js?v=5"></script>
+  </body>
+</html>
