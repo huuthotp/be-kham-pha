@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Giọng Bé Sen: một câu trọn, đọc rõ đáp án A B C và lời khen."""
+"""Mỗi câu sau câu hỏi bắt đầu bằng 'Nào', để âm đầu không bị nuốt."""
 
 import asyncio
 import json
 import shutil
 import subprocess
+from datetime import datetime
 from pathlib import Path
 
 import edge_tts
@@ -16,10 +17,10 @@ RATE = "-6%"
 PITCH = "+2Hz"
 NUM_WORDS = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín", "mười"]
 PRAISE = [
-    "Ồ! Giỏi quá bé ơi!",
-    "Hay quá! Đúng rồi!",
-    "Giỏi lắm bé ơi!",
-    "Ôi, đúng rồi đó!",
+    "giỏi quá bé ơi",
+    "hay quá, đúng rồi",
+    "giỏi lắm bé ơi",
+    "đúng rồi đó",
 ]
 
 
@@ -42,29 +43,31 @@ def spoken(item):
 
 def question_line(question):
     ask = (question.get("say") or question["question"]).strip()
-    choices = ". ".join(f"Đáp án {option['key']}: {spoken(option)}" for option in question["options"])
-    return f"{ask} {choices}."
+    choices = " ".join(
+        f"Nào đáp án {option['key']} là {spoken(option)}." for option in question["options"]
+    )
+    return f"{ask} {choices}"
 
 
 def feedback_line(index, is_correct, explain):
     if is_correct:
         praise = PRAISE[index % len(PRAISE)]
-        return f"{praise} {explain} Tuyệt vời lắm!"
-    return f"Ôi, chưa đúng đâu. Không sao nhé! {explain} Cố lên nào!"
+        return f"Nào {praise}. Nào {explain}, tuyệt vời lắm."
+    return f"Nào chưa đúng đâu, không sao nhé. Nào {explain}, cố lên nào."
 
 
 def result_line(correct, total):
     ratio = correct / total
     if ratio == 1:
-        msg = "Hoàn hảo! Bé là chuyên gia nhỏ về Nhã nhạc cung đình Huế!"
+        msg = "hoàn hảo, bé là chuyên gia nhỏ về Nhã nhạc cung đình Huế"
     elif ratio >= 0.7:
-        msg = "Xuất sắc! Bé đã hiểu rất nhiều về Nhã nhạc cung đình Huế."
+        msg = "xuất sắc, bé đã hiểu rất nhiều về Nhã nhạc cung đình Huế"
     elif ratio >= 0.4:
-        msg = "Tốt lắm! Chơi lại để khám phá thêm nhiều điều thú vị nhé!"
+        msg = "tốt lắm, chơi lại để khám phá thêm nhiều điều thú vị nhé"
     else:
-        msg = "Bé đã cố gắng rồi! Chơi lại để nghe Nhã nhạc thêm nhé!"
-    score = f"Bé đúng {NUM_WORDS[correct]} câu, trên {NUM_WORDS[total]} câu."
-    return f"Xong rồi bé ơi! {score} {msg}"
+        msg = "bé đã cố gắng rồi, chơi lại để nghe Nhã nhạc thêm nhé"
+    score = f"bé đúng {NUM_WORDS[correct]} câu trên {NUM_WORDS[total]} câu"
+    return f"Nào xong rồi bé ơi, {score}, {msg}."
 
 
 def jobs_for(questions):
@@ -88,7 +91,7 @@ def run_ffmpeg(args):
 async def synth(text, out_path, sem):
     raw = out_path.with_suffix(".raw.mp3")
     last_error = None
-    for attempt in range(5):
+    for attempt in range(6):
         try:
             async with sem:
                 communicate = edge_tts.Communicate(text, VOICE, rate=RATE, pitch=PITCH)
@@ -97,15 +100,24 @@ async def synth(text, out_path, sem):
             break
         except Exception as error:
             last_error = error
-            await asyncio.sleep(1.5 * (attempt + 1))
-    if last_error:
+            await asyncio.sleep(1.4 * (attempt + 1))
+    if last_error or not raw.exists() or raw.stat().st_size < 1000:
         raise RuntimeError(text) from last_error
+    # Khoảng lặng trước và sau để máy phát không cắt âm đầu, âm cuối.
     run_ffmpeg(
         [
+            "-f",
+            "lavfi",
+            "-t",
+            "0.28",
+            "-i",
+            "anullsrc=r=24000:cl=mono",
             "-i",
             str(raw),
-            "-af",
-            "apad=pad_dur=0.45,loudnorm=I=-16:TP=-1.5:LRA=11",
+            "-filter_complex",
+            "[1:a]apad=pad_dur=0.4[a1];[0:a][a1]concat=n=2:v=0:a=1[a]",
+            "-map",
+            "[a]",
             "-ar",
             "24000",
             "-ac",
@@ -122,28 +134,29 @@ async def main():
     questions = load_questions()
     OUT.mkdir(exist_ok=True)
     sem = asyncio.Semaphore(2)
-    manifest = {}
-    pending_keys = []
+
+    fresh_after = datetime(2026, 11, 25, 22, 0, 0)
 
     async def one(key, text):
         out_path = OUT / f"{key}.mp3"
+        if out_path.exists() and out_path.stat().st_size > 20000:
+            modified = datetime.fromtimestamp(out_path.stat().st_mtime)
+            if modified >= fresh_after:
+                print(f"Skip {key}", flush=True)
+                return
         print(f"Generating {key}...", flush=True)
         await synth(text, out_path, sem)
         print(f"  ok {out_path.stat().st_size}", flush=True)
 
-    tasks = []
-    for key, text in jobs_for(questions):
-        pending_keys.append(key)
-        tasks.append(one(key, text))
-    await asyncio.gather(*tasks)
+    jobs = jobs_for(questions)
+    await asyncio.gather(*(one(key, text) for key, text in jobs))
 
+    keys = [key for key, _ in jobs]
     for index in range(len(questions)):
-        src = OUT / f"q{index}.mp3"
-        dst = OUT / f"q{index}_replay.mp3"
-        shutil.copyfile(src, dst)
-        pending_keys.append(f"q{index}_replay")
+        shutil.copyfile(OUT / f"q{index}.mp3", OUT / f"q{index}_replay.mp3")
+        keys.append(f"q{index}_replay")
 
-    manifest = {key: f"audio/{key}.mp3" for key in sorted(pending_keys, key=lambda name: (name[0], name))}
+    manifest = {key: f"audio/{key}.mp3" for key in keys}
     (ROOT / "audio-manifest.js").write_text(
         "window.AUDIO_MANIFEST = " + json.dumps(manifest, indent=2, ensure_ascii=False) + ";\n",
         encoding="utf-8",
