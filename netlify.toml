@@ -1,6 +1,7 @@
 [build]
   publish = "."
-  ignore = "exit 0"
+  # exit 1: có commit mới thì build và đăng. exit 0 sẽ bỏ qua mọi lần đăng.
+  ignore = "exit 1"
 
 [[headers]]
   for = "/audio/*"
