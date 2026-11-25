@@ -30,11 +30,11 @@ window.HUE_CONTENT = {
       speaker: "sen",
       question: "Nhã nhạc Cung đình Huế là loại hình nghệ thuật gì?",
       options: [
-        { key: "A", label: "Âm nhạc cung đình truyền thống" },
-        { key: "B", label: "Trò chơi dân gian" },
+        { key: "A", label: "Trò chơi dân gian" },
+        { key: "B", label: "Âm nhạc cung đình truyền thống" },
         { key: "C", label: "Môn thể thao" }
       ],
-      answer: "A",
+      answer: "B",
       explain: "Nhã nhạc là âm nhạc cung đình truyền thống."
     },
     {
@@ -42,11 +42,11 @@ window.HUE_CONTENT = {
       speaker: "sen",
       question: "Nhã nhạc Cung đình Huế nổi tiếng ở vùng đất nào?",
       options: [
-        { key: "A", label: "Huế" },
-        { key: "B", label: "Đà Lạt" },
-        { key: "C", label: "Hà Nội" }
+        { key: "A", label: "Đà Lạt" },
+        { key: "B", label: "Hà Nội" },
+        { key: "C", label: "Huế" }
       ],
-      answer: "A",
+      answer: "C",
       explain: "Nhã nhạc nổi tiếng ở Huế."
     },
     {
@@ -66,11 +66,11 @@ window.HUE_CONTENT = {
       speaker: "sen",
       question: "Nhạc cụ nào có thể xuất hiện trong Nhã nhạc Cung đình Huế?",
       options: [
-        { key: "A", label: "Đàn nguyệt" },
-        { key: "B", label: "Đàn guitar điện" },
-        { key: "C", label: "Đàn piano hiện đại" }
+        { key: "A", label: "Đàn guitar điện" },
+        { key: "B", label: "Đàn piano hiện đại" },
+        { key: "C", label: "Đàn nguyệt" }
       ],
-      answer: "A",
+      answer: "C",
       explain: "Trong Nhã nhạc có thể có đàn nguyệt."
     },
     {
@@ -78,11 +78,11 @@ window.HUE_CONTENT = {
       speaker: "long",
       question: "Nhã nhạc Cung đình Huế thường kết hợp với nghệ thuật nào?",
       options: [
-        { key: "A", label: "Múa cung đình" },
-        { key: "B", label: "Nhảy hip-hop" },
+        { key: "A", label: "Nhảy hip-hop" },
+        { key: "B", label: "Múa cung đình" },
         { key: "C", label: "Múa hiện đại" }
       ],
-      answer: "A",
+      answer: "B",
       explain: "Nhã nhạc hay đi cùng múa cung đình."
     },
     {
@@ -102,23 +102,24 @@ window.HUE_CONTENT = {
       speaker: "long",
       question: "Trang phục biểu diễn Nhã nhạc Cung đình Huế thường như thế nào?",
       options: [
-        { key: "A", label: "Trang phục cung đình truyền thống, trang trọng" },
-        { key: "B", label: "Quần áo thể thao" },
-        { key: "C", label: "Đồ ngủ" }
+        { key: "A", label: "Quần áo thể thao" },
+        { key: "B", label: "Đồ ngủ" },
+        { key: "C", label: "Trang phục cung đình truyền thống, trang trọng" }
       ],
-      answer: "A",
+      answer: "C",
       explain: "Người biểu diễn mặc trang phục cung đình trang trọng."
     },
     {
       stage: "keep",
       speaker: "co",
       question: "Nhã nhạc Cung đình Huế được UNESCO ghi danh vào năm nào?",
+      say: "Nhã nhạc Cung đình Huế được ghi danh vào năm nào?",
       options: [
-        { key: "A", label: "Năm 2003" },
-        { key: "B", label: "Năm 2010" },
-        { key: "C", label: "Năm 2020" }
+        { key: "A", label: "Năm 2010", say: "năm hai nghìn không trăm mười" },
+        { key: "B", label: "Năm 2003", say: "năm hai nghìn không trăm linh ba" },
+        { key: "C", label: "Năm 2020", say: "năm hai nghìn hai mươi" }
       ],
-      answer: "A",
+      answer: "B",
       explain: "Năm hai nghìn không trăm linh ba, Nhã nhạc được cả thế giới ghi danh."
     },
     {
@@ -126,11 +127,11 @@ window.HUE_CONTENT = {
       speaker: "co",
       question: "Khi nghe Nhã nhạc Cung đình Huế, bé nên làm gì?",
       options: [
-        { key: "A", label: "Lắng nghe và cảm nhận âm nhạc" },
-        { key: "B", label: "Nói chuyện thật to" },
-        { key: "C", label: "Chạy quanh lớp" }
+        { key: "A", label: "Nói chuyện thật to" },
+        { key: "B", label: "Chạy quanh lớp" },
+        { key: "C", label: "Lắng nghe và cảm nhận âm nhạc" }
       ],
-      answer: "A",
+      answer: "C",
       explain: "Mình ngồi yên, lắng nghe và cảm nhận âm nhạc."
     },
     {
@@ -138,11 +139,11 @@ window.HUE_CONTENT = {
       speaker: "co",
       question: "Bé làm gì để góp phần giữ gìn Nhã nhạc Cung đình Huế?",
       options: [
-        { key: "A", label: "Tìm hiểu, lắng nghe và yêu quý âm nhạc truyền thống" },
-        { key: "B", label: "Không quan tâm đến âm nhạc truyền thống" },
+        { key: "A", label: "Không quan tâm đến âm nhạc truyền thống" },
+        { key: "B", label: "Tìm hiểu, lắng nghe và yêu quý âm nhạc truyền thống" },
         { key: "C", label: "Chê bai các làn điệu cổ truyền" }
       ],
-      answer: "A",
+      answer: "B",
       explain: "Mình tìm hiểu, lắng nghe và yêu quý âm nhạc truyền thống."
     }
   ]

@@ -122,9 +122,9 @@
     const src = window.AUDIO_MANIFEST && window.AUDIO_MANIFEST[audioKey];
     if (!src) return;
 
-    const audio = new Audio(`${src}?v=1`);
+    const audio = new Audio(`${src}?v=2`);
     audio.preload = "auto";
-    audio.playbackRate = 1.02;
+    audio.playbackRate = 1;
     if ("preservesPitch" in audio) audio.preservesPitch = true;
     state.ttsAudio = audio;
 
