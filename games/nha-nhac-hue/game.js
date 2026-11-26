@@ -122,7 +122,7 @@
     const src = window.AUDIO_MANIFEST && window.AUDIO_MANIFEST[audioKey];
     if (!src) return;
 
-    const audio = new Audio(`${src}?v=4`);
+    const audio = new Audio(`${src}?v=5`);
     audio.preload = "auto";
     audio.playbackRate = 1;
     if ("preservesPitch" in audio) audio.preservesPitch = true;
