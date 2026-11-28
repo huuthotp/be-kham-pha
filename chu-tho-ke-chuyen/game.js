@@ -3,7 +3,7 @@
 
   const DATA = window.THO_CONTENT;
   const QUESTIONS = DATA.questions;
-  const AUDIO_VERSION = 9;
+  const AUDIO_VERSION = 10;
 
   const el = {
     hub: document.getElementById("screen-hub"),

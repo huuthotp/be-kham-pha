@@ -58,6 +58,7 @@ def jobs_for(data):
 
 
 def chunk_text(text, limit=160):
+    """Cắt theo câu trước; tránh tách tên riêng kiểu 'Thỏ Bông'."""
     text = " ".join(text.split())
     if len(text) <= limit:
         return [text]
@@ -67,11 +68,27 @@ def chunk_text(text, limit=160):
         if len(rest) <= limit:
             parts.append(rest)
             break
-        cut = rest.rfind(" ", 0, limit)
+        window = rest[: limit + 1]
+        cut = -1
+        for sep in (". ", "! ", "? ", "; "):
+            pos = window.rfind(sep)
+            if pos >= 40:
+                cut = max(cut, pos + len(sep) - 1)
+        if cut < 40:
+            cut = rest.rfind(" ", 0, limit)
         if cut < 40:
             cut = limit
-        parts.append(rest[:cut].strip())
-        rest = rest[cut:].strip()
+        piece = rest[:cut].rstrip()
+        leftover = rest[cut:].lstrip()
+        # Không cắt giữa 'Thỏ Bông'
+        if piece.endswith("Thỏ") and leftover.startswith("Bông"):
+            alt = rest.rfind(" ", 0, max(0, cut - 4))
+            if alt >= 40:
+                cut = alt
+                piece = rest[:cut].rstrip()
+                leftover = rest[cut:].lstrip()
+        parts.append(piece)
+        rest = leftover
     return [part for part in parts if part]
 
 
