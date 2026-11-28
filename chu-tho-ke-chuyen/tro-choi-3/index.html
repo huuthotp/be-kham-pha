@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#7EC8E3" />
+    <meta name="description" content="Ong con chăm chỉ – Vượt thử thách an toàn." />
+    <title>Ong con chăm chỉ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800&family=Fredoka:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=3" />
+  </head>
+  <body>
+    <div class="world" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="hill back"></div>
+      <div class="hill"></div>
+    </div>
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+    <section id="screen-start" class="screen screen-start is-active" aria-label="Bắt đầu">
+      <div class="stage">
+        <a class="back-hub" href="../">← Mục lục</a>
+        <p class="brand">An toàn cho bé</p>
+        <h1 class="title">
+          <span class="title-line">Ong con chăm chỉ</span>
+          <span class="title-sub">Vượt thử thách an toàn</span>
+        </h1>
+        <p class="tagline" id="intro-text"></p>
+        <button type="button" id="btn-start" class="btn btn-primary btn-xl">Bắt đầu chơi</button>
+        <label class="voice-toggle">
+          <input type="checkbox" id="toggle-voice" checked />
+          <span>Nghe đọc câu hỏi</span>
+        </label>
+      </div>
+    </section>
+
+    <section id="screen-play" class="screen screen-play" aria-label="Chơi" hidden>
+      <header class="play-bar">
+        <a class="btn btn-icon" href="../" aria-label="Mục lục">←</a>
+        <div class="play-progress">
+          <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+          <p id="progress-text" class="progress-text">Câu 1 / 10</p>
+        </div>
+        <button type="button" id="btn-speak" class="btn btn-icon" aria-label="Đọc lại">🔊</button>
+      </header>
+
+      <div class="journey-strip" id="journey-strip" aria-label="Hành trình Ong con về tổ">
+        <div class="journey-rail">
+          <div class="journey-line" aria-hidden="true"></div>
+          <div id="journey-stops" class="journey-stops"></div>
+          <div id="journey-bee" class="journey-bee" aria-hidden="true">
+            <svg viewBox="0 0 64 48" aria-hidden="true">
+              <ellipse class="wing wing-l" cx="18" cy="14" rx="12" ry="8" fill="rgba(255,255,255,.9)" />
+              <ellipse class="wing wing-r" cx="46" cy="14" rx="12" ry="8" fill="rgba(255,255,255,.9)" />
+              <ellipse cx="32" cy="26" rx="16" ry="12" fill="#FFD45A" />
+              <path d="M20 22 Q32 34 44 22" fill="none" stroke="#1F3A2E" stroke-width="3" />
+              <path d="M24 26 Q32 36 40 26" fill="none" stroke="#1F3A2E" stroke-width="3" />
+              <circle cx="40" cy="22" r="7" fill="#FFD45A" />
+              <circle cx="42" cy="21" r="1.6" fill="#1F3A2E" />
+              <path d="M44 16 L48 10 M40 15 L38 9" stroke="#1F3A2E" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="journey-hive" title="Tổ ong" aria-hidden="true">
+          <span class="journey-hive-body"><span class="journey-hive-hole"></span></span>
+        </div>
+      </div>
+
+      <p class="statement-kicker" id="question-kicker">Câu hỏi 1</p>
+      <p id="statement-text" class="statement-text"></p>
+      <div class="pics-row" id="pics-row"></div>
+    </section>
+
+    <div id="feedback" class="feedback" hidden role="dialog" aria-modal="true">
+      <div class="feedback-card">
+        <div id="reward-scene" class="reward-scene" hidden aria-hidden="true">
+          <div class="reward-sky">
+            <div class="reward-cloud rc1"></div>
+            <div class="reward-cloud rc2"></div>
+            <div class="reward-path" aria-hidden="true"></div>
+            <div class="reward-bloom" id="reward-bloom">🌸</div>
+            <div class="reward-hive" aria-hidden="true">
+              <span class="hive"></span>
+            </div>
+            <div class="flyer bee" id="reward-bee">
+              <svg viewBox="0 0 64 48" aria-hidden="true">
+                <ellipse class="wing wing-l" cx="18" cy="14" rx="12" ry="8" fill="rgba(255,255,255,.85)" />
+                <ellipse class="wing wing-r" cx="46" cy="14" rx="12" ry="8" fill="rgba(255,255,255,.85)" />
+                <ellipse cx="32" cy="26" rx="16" ry="12" fill="#FFD45A" />
+                <path d="M20 22 Q32 34 44 22" fill="none" stroke="#1F3A2E" stroke-width="3" />
+                <path d="M24 26 Q32 36 40 26" fill="none" stroke="#1F3A2E" stroke-width="3" />
+                <circle cx="40" cy="22" r="7" fill="#FFD45A" />
+                <circle cx="42" cy="21" r="1.6" fill="#1F3A2E" />
+                <path d="M44 16 L48 10 M40 15 L38 9" stroke="#1F3A2E" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+          <p class="reward-caption" id="reward-caption">Ong con bay thêm một chặng đường!</p>
+        </div>
+        <h2 id="feedback-title" class="feedback-title">Đúng rồi!</h2>
+        <p id="feedback-explain" class="feedback-explain"></p>
+        <button type="button" id="btn-next" class="btn btn-primary btn-lg">Câu tiếp theo</button>
+      </div>
+    </div>
+
+    <section id="screen-result" class="screen screen-result" aria-label="Kết thúc" hidden>
+      <div class="stage">
+        <p class="brand">An toàn cho bé</p>
+        <h2 class="result-title">Giỏi quá!</h2>
+        <div id="finale-scene" class="finale-scene" aria-hidden="true">
+          <div class="finale-sky">
+            <div class="finale-cloud fc1"></div>
+            <div class="finale-cloud fc2"></div>
+            <div class="hive-tree">
+              <div class="hive" title="Tổ ong">
+                <span class="hive-hole"></span>
+              </div>
+            </div>
+            <div class="flyer bee" id="finale-flyer">
+              <svg viewBox="0 0 64 48" aria-hidden="true">
+                <ellipse class="wing wing-l" cx="18" cy="14" rx="12" ry="8" fill="rgba(255,255,255,.85)" />
+                <ellipse class="wing wing-r" cx="46" cy="14" rx="12" ry="8" fill="rgba(255,255,255,.85)" />
+                <ellipse cx="32" cy="26" rx="16" ry="12" fill="#FFD45A" />
+                <path d="M20 22 Q32 34 44 22" fill="none" stroke="#1F3A2E" stroke-width="3" />
+                <path d="M24 26 Q32 36 40 26" fill="none" stroke="#1F3A2E" stroke-width="3" />
+                <circle cx="40" cy="22" r="7" fill="#FFD45A" />
+                <circle cx="42" cy="21" r="1.6" fill="#1F3A2E" />
+                <path d="M44 16 L48 10 M40 15 L38 9" stroke="#1F3A2E" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </div>
+          </div>
+          <p class="finale-caption">Ong con đang bay về tổ…</p>
+        </div>
+        <div class="result-stats">
+          <div class="stat"><span class="stat-value" id="result-correct">0</span><span class="stat-label">Đúng</span></div>
+          <div class="stat"><span class="stat-value" id="result-total">10</span><span class="stat-label">Tổng</span></div>
+        </div>
+        <p id="result-message" class="result-message"></p>
+        <button type="button" id="btn-replay" class="btn btn-primary btn-xl">Chơi lại</button>
+        <a class="btn btn-secondary btn-lg" href="../">← Mục lục</a>
+      </div>
+    </section>
+
+    <script src="content.js?v=3"></script>
+    <script src="audio-manifest.js?v=3"></script>
+    <script src="game.js?v=3"></script>
+  </body>
+</html>
