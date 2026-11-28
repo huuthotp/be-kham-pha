@@ -1,0 +1,43 @@
+html, body { margin: 0; min-height: 100%; min-height: 100dvh; }
+body.journey-page {
+  font-family: "Be Vietnam Pro", system-ui, sans-serif;
+  color: #1f3a2e;
+  background: linear-gradient(180deg, #6ec6e0 0%, #c7ecf6 42%, #e7f6c4 72%, #b7e36a 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+.page-sky { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.page-sky .sun {
+  position: absolute; top: 4%; right: 8%; width: 72px; height: 72px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff7c8, #ffd45a 62%, #f0a83a);
+  box-shadow: 0 0 36px rgba(255, 212, 90, 0.55);
+}
+.page-sky .cloud {
+  position: absolute; background: rgba(255,255,255,.88); border-radius: 999px;
+  animation: drift 38s linear infinite;
+}
+.page-sky .cloud::before, .page-sky .cloud::after {
+  content: ""; position: absolute; background: inherit; border-radius: 50%;
+}
+.page-sky .c1 { width: 96px; height: 32px; top: 12%; left: -20%; }
+.page-sky .c1::before { width: 40px; height: 40px; top: -20px; left: 14px; }
+.page-sky .c1::after { width: 50px; height: 50px; top: -26px; left: 38px; }
+.page-sky .c2 { width: 72px; height: 26px; top: 22%; left: -30%; animation-duration: 48s; opacity: .8; }
+.page-sky .c2::before { width: 32px; height: 32px; top: -16px; left: 10px; }
+.page-sky .c2::after { width: 40px; height: 40px; top: -20px; left: 28px; }
+.page-sky .hill {
+  position: absolute; bottom: -40px; width: 120%; height: 160px; left: -10%;
+  border-radius: 50% 50% 0 0; background: linear-gradient(180deg, #b7e36a, #7cbc3a);
+}
+.page-sky .hill.back { bottom: 18px; height: 120px; opacity: .55; }
+@keyframes drift { to { transform: translateX(140vw); } }
+.journey-root { position: relative; z-index: 1; }
+.journey-zone[data-zone="gate"] .journey-zone-art[data-fallback] {
+  background: linear-gradient(180deg,#7eb8d8 0%,#ffe8c0 50%,#c8e070 100%) !important;
+}
+.journey-zone[data-zone="dance"] .journey-zone-art[data-fallback] {
+  background: linear-gradient(180deg,#90c8e8 0%,#ffd8b0 48%,#e0c878 100%) !important;
+}
+.journey-zone[data-zone="keep"] .journey-zone-art[data-fallback] {
+  background: linear-gradient(180deg,#a0d0e8 0%,#fff4d0 50%,#b8e080 100%) !important;
+}

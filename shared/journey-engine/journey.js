@@ -377,6 +377,8 @@
     }
 
     function renderChoices(question) {
+      const two = question.options.length === 2;
+      el.choices.classList.toggle("is-two", two);
       el.choices.innerHTML = question.options
         .map(
           (option) => `
