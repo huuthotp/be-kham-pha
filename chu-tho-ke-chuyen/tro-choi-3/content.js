@@ -4,7 +4,7 @@ window.EYES_CONTENT = {
   subtitle: "Vượt thử thách an toàn",
   intro: "Giúp Ong con vượt 10 thử thách an toàn để về tổ nhé!",
   startButton: "Bắt đầu chơi",
-  feedbackOk: "Đúng rồi! Ong con bay thêm một chặng đường!",
+  feedbackOk: "Ong con có thêm 1 bông hoa an toàn!",
   feedbackBad: "Chưa đúng đâu. Hãy chọn lại cách an toàn nhé!",
   closing: "Giỏi quá! Ong con đã về tổ nhờ bé chọn đúng!",
   replayButton: "Chơi lại",
