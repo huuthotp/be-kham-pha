@@ -4,7 +4,7 @@ window.EYES_CONTENT = {
   subtitle: "Bé khéo bảo vệ mình",
   intro: "Chọn đáp án đúng giúp Bướm xinh tìm hoa an toàn nhé!",
   startButton: "Bắt đầu chơi",
-  feedbackOk: "Bướm xinh có thêm 1 bông hoa an toàn!",
+  feedbackOk: "Đúng rồi! Bướm xinh có thêm 1 bông hoa an toàn!",
   feedbackBad: "Chưa đúng đâu. Hãy chọn lại cách bảo vệ mình nhé!",
   closing: "Giỏi quá! Bé đã giúp Bướm xinh tìm đủ hoa an toàn!",
   replayButton: "Chơi lại",

@@ -3,7 +3,7 @@
 
   const DATA = window.EYES_CONTENT;
   const QUESTIONS = DATA.questions;
-  const AUDIO_VERSION = 4;
+  const AUDIO_VERSION = 5;
 
   const el = {
     start: document.getElementById("screen-start"),
@@ -204,7 +204,7 @@
       el.rewardCaption.textContent =
         step >= QUESTIONS.length
           ? "Ong con sắp về tổ rồi!"
-          : "Ong con có thêm 1 bông hoa an toàn!";
+          : "Đúng rồi! Ong con có thêm 1 bông hoa an toàn!";
     }
     void el.rewardScene.offsetWidth;
     el.rewardScene.classList.add("is-play");
